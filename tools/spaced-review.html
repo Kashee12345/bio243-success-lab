@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00693e">
+<title>Spaced Review Tracker · BIO 243 Success Lab</title>
+<meta name="description" content="Track your shaky BIO 243 topics and review each one just as you start to forget it.">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>window.S243={get:function(k,d){try{var v=localStorage.getItem("s243_"+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set:function(k,v){try{localStorage.setItem("s243_"+k,JSON.stringify(v));}catch(e){}}};</script>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<div class="bar"><a class="logo" href="../index.html"><span class="crest" aria-hidden="true">243</span><span><b>Success Lab</b><small>BIO 243 · USC Upstate</small></span></a>
+<nav class="nav" aria-label="Main"><a href="../weeks/index.html">Weeks</a><a href="../book/index.html">Book</a><a href="../index.html#tools">Tools</a><a href="../index.html#games">Games</a><a href="../index.html#ai">AI rules</a></nav>
+<a class="btn sm" href="../weeks/index.html">The 15 weeks</a></div>
+<nav class="mnav" aria-label="Sections"><a href="../weeks/index.html">Weeks</a><a href="../book/index.html">Book</a><a href="../index.html#tools">Tools</a><a href="../index.html#games">Games</a><a href="../index.html#ai">AI rules</a></nav>
+</div></header>
+<main id="main">
+<section class="phero"><div class="wrap">
+<div class="crumbs"><a href="../index.html">Success Lab</a><span aria-hidden="true">/</span><span>Tools</span><span aria-hidden="true">/</span><span>Spaced Review Tracker</span></div>
+<h1>Spaced Review Tracker</h1>
+<p class="sub">Add the topics you feel shaky on. Each time you test yourself and get it right, the topic moves to a longer wait: 1 day, 2 days, 4 days, a week, two weeks. Miss it, and it comes back tomorrow.</p>
+</div></section>
+<div class="wrap body tool">
+<style>
+.srg{display:grid;gap:22px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.srg{grid-template-columns:minmax(0,1fr) 360px;align-items:start}}
+.boxes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:6px 0 4px}
+.boxes div{text-align:center;border-radius:12px;padding:8px 2px;background:var(--bg2);border:1px solid var(--line)}
+.boxes b{display:block;font:700 24px var(--disp);color:var(--maroon-d)}
+.boxes small{font-size:11px;font-weight:700;color:var(--mute);line-height:1.2;display:block}
+.tlist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.tlist li{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:8px}
+.tlist .top1{display:flex;gap:10px;align-items:flex-start}
+.tlist .tt{flex:1;min-width:0;font-weight:700;line-height:1.35}
+.tlist .tt small{display:block;font-weight:600;color:var(--mute);font-size:12.5px;margin-top:2px}
+.lvl{display:flex;gap:3px;flex:none;margin-top:4px}
+.lvl i{width:9px;height:9px;border-radius:3px;background:var(--line)}
+.lvl i.on{background:var(--ok)}
+.tlist .acts{display:flex;gap:8px;flex-wrap:wrap}
+.tlist .acts button{font:700 13.5px var(--body);padding:8px 12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);cursor:pointer;color:var(--ink)}
+.tlist .acts .yes{background:var(--ok);border-color:var(--ok);color:#fff}
+.tlist .acts .no{border-color:var(--bad);color:var(--bad)}
+.tlist .acts .del{margin-left:auto;border:0;background:none;color:var(--mute);font-weight:600}
+.empty{color:var(--mute);font-size:14.5px;padding:14px;border:2px dashed var(--line);border-radius:14px;text-align:center}
+.sugg{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sugg button{font:600 12.5px var(--body);padding:6px 10px;border-radius:99px;border:1px solid var(--line);background:var(--card);cursor:pointer;color:var(--maroon-d)}
+.sugg button:hover{border-color:var(--maroon)}
+.sugg button[disabled]{opacity:.4;cursor:default}
+.uplist{list-style:none;margin:0;padding:0;font-size:14px}
+.uplist li{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.uplist li:last-child{border:0}
+</style>
+<div class="srg">
+<div>
+<div class="card"><span class="label">Add a topic</span>
+<form id="add" class="row2" style="align-items:end">
+<div class="field" style="margin:0"><label for="topic">Topic you feel shaky on</label><input class="in" id="topic" maxlength="90" placeholder="Example: phases of mitosis" autocomplete="off"></div>
+<div class="field" style="margin:0"><label for="chap">Chapter</label><select class="in" id="chap"><option value="">Pick one</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>9</option><option>10</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option></select></div>
+<button class="btn green" type="submit">Add</button>
+</form>
+<p style="font-size:13.5px;color:var(--mute);margin:10px 0 0">Or tap a common BIO 243 trouble spot:</p>
+<div class="sugg" id="sugg"></div>
+</div>
+<h2 style="font-size:26px;margin:24px 0 10px">Due today <span id="ndue" class="pill gold" style="vertical-align:middle"></span></h2>
+<p style="color:var(--mute);font-size:14.5px;margin-bottom:12px">For each one: close your notes, explain it or write it out from memory, then check OpenStax. Be honest with the buttons.</p>
+<ul class="tlist" id="due"></ul>
+<h2 style="font-size:22px;margin:26px 0 10px">Coming up</h2>
+<ul class="tlist" id="later"></ul>
+</div>
+<aside>
+<div class="card"><span class="label">Your boxes</span>
+<div class="boxes" id="boxes"></div>
+<p style="font-size:13px;color:var(--mute)">Box 1 comes back tomorrow, box 5 in two weeks. A topic in box 5 that you get right again is mastered.</p></div>
+<div class="card"><span class="label">Next seven days</span><ul class="uplist" id="up"></ul></div>
+<div class="card"><span class="label">Why this works</span><p style="font-size:14.5px;line-height:1.5">Memories fade fast at first. Each time you pull a fact back out just as it starts to fade, it lasts longer before fading again. That is spacing plus retrieval practice, two of the best-supported study strategies there are. See <a href="../book/ch06.html">Chapter 6</a> of the Success Book.</p>
+<p class="privacy"><b>Private.</b> Saved only in this browser on this device.</p></div>
+</aside>
+</div>
+</div>
+<script>
+(function(){
+  "use strict";
+  var S=window.S243,GAP=[1,2,4,7,14];
+  var SUG=[["Directional terms","1"],["Negative vs positive feedback","1"],["Bond types and water","2"],["pH and buffers","2"],["Membrane transport types","3"],["Phases of mitosis","3"],["Transcription vs translation","3"],["Epithelial tissue names","4"],["Connective tissue types","4"],["Layers of the epidermis","5"],["Osteoblasts, osteoclasts, osteocytes","6"],["Endochondral ossification","6"],["Synovial joint types","9"],["Sliding filament steps","10"],["Neuromuscular junction","10"],["Action potential phases","12"],["Synapse sequence","12"],["Brain regions and functions","13"],["The 12 cranial nerves","13"],["Spinal cord cross-section","13"],["Eye and vision pathway","14"],["Sympathetic vs parasympathetic","15"]];
+  var T=S.get("sr_topics",[]);
+  function day0(){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();}
+  function addDays(t,n){var d=new Date(t);return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n).getTime();}
+  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+  var DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  function save(){S.set("sr_topics",T);draw();}
+  function add(name,ch){name=name.trim();if(!name)return;if(T.some(function(x){return x.n.toLowerCase()===name.toLowerCase();}))return;T.push({n:name,c:ch||"",b:1,due:day0(),id:Date.now()+Math.random()});save();}
+  document.getElementById("add").addEventListener("submit",function(e){e.preventDefault();add(document.getElementById("topic").value,document.getElementById("chap").value);document.getElementById("topic").value="";});
+  document.getElementById("sugg").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;add(b.getAttribute("data-n"),b.getAttribute("data-c"));});
+  function item(x,isDue){var lv='';for(var i=1;i<=5;i++)lv+='<i class="'+(i<=x.b?"on":"")+'"></i>';
+    var when=isDue?"":'<small>Next review: '+(function(){var d=new Date(x.due);var n=Math.round((x.due-day0())/864e5);return n===1?"tomorrow":DOW[d.getDay()]+" ("+n+" days)";})()+'</small>';
+    return '<li data-id="'+x.id+'"><div class="top1"><div class="tt">'+esc(x.n)+(x.c?' <small>Chapter '+x.c+' · box '+x.b+'</small>':' <small>Box '+x.b+'</small>')+when+'</div><div class="lvl" aria-label="Box '+x.b+' of 5">'+lv+'</div></div>'+
+      (isDue?'<div class="acts"><button class="yes" type="button" data-a="y">I got it</button><button class="no" type="button" data-a="n">Not yet</button><button class="del" type="button" data-a="d">Remove</button></div>':'<div class="acts"><button type="button" data-a="now">Review now</button><button class="del" type="button" data-a="d">Remove</button></div>')+'</li>';}
+  function draw(){var t0=day0();T.sort(function(a,b){return a.due-b.due;});
+    var due=T.filter(function(x){return x.due<=t0&&x.b<6;}),later=T.filter(function(x){return x.due>t0&&x.b<6;}),done=T.filter(function(x){return x.b>=6;});
+    document.getElementById("due").innerHTML=due.length?due.map(function(x){return item(x,true);}).join(""):'<li class="empty">'+(T.length?"Nothing due today. Nice work. Come back tomorrow.":"Add two or three shaky topics to get started.")+'</li>';
+    document.getElementById("later").innerHTML=later.length?later.map(function(x){return item(x,false);}).join(""):'<li class="empty">Topics you get right move here until their next review.</li>';
+    document.getElementById("ndue").textContent=due.length+" due";
+    var cnt=[0,0,0,0,0];T.forEach(function(x){if(x.b<6)cnt[x.b-1]++;});
+    document.getElementById("boxes").innerHTML=cnt.map(function(n,i){return '<div><b>'+n+'</b><small>Box '+(i+1)+'<br>'+GAP[i]+' day'+(GAP[i]>1?"s":"")+'</small></div>';}).join("")+'';
+    var up="";for(var i=0;i<7;i++){var d=addDays(t0,i),n=T.filter(function(x){return x.b<6&&(i===0?x.due<=d:x.due===d);}).length;var dd=new Date(d);up+='<li><span>'+(i===0?"Today":i===1?"Tomorrow":DOW[dd.getDay()])+'</span><b>'+n+' topic'+(n===1?"":"s")+'</b></li>';}
+    up+='<li><span>Mastered</span><b>'+done.length+'</b></li>';
+    document.getElementById("up").innerHTML=up;
+    var have={};T.forEach(function(x){have[x.n.toLowerCase()]=1;});
+    document.getElementById("sugg").innerHTML=SUG.map(function(s){return '<button type="button" data-n="'+s[0]+'" data-c="'+s[1]+'"'+(have[s[0].toLowerCase()]?" disabled":"")+'>'+s[0]+'</button>';}).join("");}
+  document.addEventListener("click",function(e){var b=e.target.closest("[data-a]");if(!b)return;var id=+b.closest("li").getAttribute("data-id");var x=T.filter(function(t){return t.id===id;})[0];if(!x)return;var a=b.getAttribute("data-a");
+    if(a==="y"){x.b++;if(x.b>5){x.b=6;x.due=9e15;}else x.due=addDays(day0(),GAP[x.b-1]);}
+    else if(a==="n"){x.b=1;x.due=addDays(day0(),1);}
+    else if(a==="now"){x.due=day0();}
+    else if(a==="d"){T=T.filter(function(t){return t.id!==id;});}
+    save();});
+  draw();
+})();
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div><a class="logo" href="../index.html"><span class="crest" aria-hidden="true">243</span><span><b>Success Lab</b><small>BIO 243 · USC Upstate</small></span></a>
+<p class="who"><b>BIO 243 Success Lab</b><br>An optional companion to BIOL U243 Human Anatomy and Physiology I at USC Upstate<br>By Dr. Akash Garg</p></div>
+<div><h2>Plan</h2><ul><li><a href="../weeks/index.html">The 15 weeks</a></li><li><a href="../tools/time-budget.html">Time Budget</a></li><li><a href="../tools/exam-planner.html">Exam Planner</a></li><li><a href="../tools/spaced-review.html">Spaced Review Tracker</a></li></ul></div>
+<div><h2>Learn</h2><ul><li><a href="../book/index.html">The Success Book</a></li><li><a href="../flashcards.html">Flashcards</a></li><li><a href="../tools/self-check.html">Study Habits Self-Check</a></li><li><a href="../tools/exam-wrapper.html">Exam Wrapper</a></li><li><a href="../printables/index.html">Printables</a></li></ul></div>
+<div><h2>Play</h2><ul><li><a href="../games/chase.html">The Success Chase</a></li><li><a href="../games/smart-or-shady.html">AI: Smart or Shady?</a></li><li><a href="../games/prompt-lab.html">AI Prompt Lab</a></li></ul></div>
+<p class="fine">This site is optional and does not replace the BIO 243 syllabus or Blackboard. When they differ, your syllabus and your instructor win. Nothing you type here leaves your device. Textbook references are to OpenStax <i>Anatomy and Physiology</i> (CC BY 4.0). Site content CC BY-NC-SA 4.0.</p>
+</div></footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

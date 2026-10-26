@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00693e">
+<title>Exam Wrapper · BIO 243 Success Lab</title>
+<meta name="description" content="Sort your BIO 243 exam misses by type, find your pattern, and leave with a plan for the next exam.">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>window.S243={get:function(k,d){try{var v=localStorage.getItem("s243_"+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set:function(k,v){try{localStorage.setItem("s243_"+k,JSON.stringify(v));}catch(e){}}};</script>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<div class="bar"><a class="logo" href="../index.html"><span class="crest" aria-hidden="true">243</span><span><b>Success Lab</b><small>BIO 243 · USC Upstate</small></span></a>
+<nav class="nav" aria-label="Main"><a href="../weeks/index.html">Weeks</a><a href="../book/index.html">Book</a><a href="../index.html#tools">Tools</a><a href="../index.html#games">Games</a><a href="../index.html#ai">AI rules</a></nav>
+<a class="btn sm" href="../weeks/index.html">The 15 weeks</a></div>
+<nav class="mnav" aria-label="Sections"><a href="../weeks/index.html">Weeks</a><a href="../book/index.html">Book</a><a href="../index.html#tools">Tools</a><a href="../index.html#games">Games</a><a href="../index.html#ai">AI rules</a></nav>
+</div></header>
+<main id="main">
+<section class="phero"><div class="wrap">
+<div class="crumbs"><a href="../index.html">Success Lab</a><span aria-hidden="true">/</span><span>Tools</span><span aria-hidden="true">/</span><span>Exam Wrapper</span></div>
+<h1>Exam Wrapper</h1>
+<p class="sub">Your exam is data. In about ten minutes, look back at how you prepared, sort the questions you missed by type, and leave with a three-step plan for the next one.</p>
+</div></section>
+<div class="wrap body tool">
+<style>
+.ewg{display:grid;gap:22px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:1000px){.ewg{grid-template-columns:minmax(0,1fr) 400px;align-items:start}.ewside{position:sticky;top:84px}}
+.step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin-bottom:16px}
+.step h2{font-size:22px;margin:0 0 4px}
+.step > p{color:var(--mute);font-size:14.5px;margin-bottom:12px}
+.chk{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr))}
+.chk label{display:flex;gap:9px;align-items:flex-start;font-size:14.5px;padding:9px 10px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;line-height:1.35}
+.chk input{width:18px;height:18px;accent-color:var(--maroon);flex:none;margin-top:1px}
+.mt{display:grid;gap:8px}
+.mt .r{display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.mt .r b{display:block;font-size:15px}
+.mt .r small{display:block;color:var(--mute);font-size:12.5px;line-height:1.35}
+.stp{display:flex;align-items:center;border:2px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}
+.stp button{width:40px;height:40px;border:0;background:var(--bg2);font:700 20px var(--body);cursor:pointer;color:var(--maroon-d)}
+.stp output{flex:1;text-align:center;font:700 18px var(--body)}
+.pie{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.pie svg{width:132px;height:132px;flex:none}
+.leg{list-style:none;margin:0;padding:0;font-size:13.5px;display:grid;gap:4px}
+.leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.fix{border-radius:14px;padding:12px 14px;background:var(--gold-soft);margin-top:12px;font-size:14.5px;line-height:1.5}
+.fix b{color:var(--gold-t)}
+.plan textarea{width:100%;font:inherit;font-size:15px;border:2px solid var(--line);border-radius:12px;padding:9px 11px;background:var(--card);margin-top:6px;resize:vertical;min-height:52px}
+@media print{.ewg{grid-template-columns:1fr}.stp button{display:none}}
+</style>
+<div class="ewg">
+<div>
+<div class="step"><span class="label">Step 1</span><h2>Which exam?</h2>
+<div class="row2"><div class="field" style="margin:0"><label for="ex">Exam</label><select class="in" id="ex"><option value="e1">Exam 1</option><option value="e2">Exam 2</option><option value="e3">Exam 3</option><option value="fin">Final exam</option><option value="q">A quiz</option></select></div>
+<div class="field" style="margin:0"><label for="score">Your score (optional)</label><input class="in" id="score" inputmode="decimal" placeholder="Example: 74" maxlength="6"></div></div></div>
+<div class="step"><span class="label">Step 2</span><h2>How did you prepare?</h2><p>Tick everything you actually did.</p>
+<div class="chk" id="prep"></div>
+<div class="field" style="margin:12px 0 0;max-width:280px"><label for="days">I started studying this many days before</label><select class="in" id="days"><option value="0">The night before</option><option value="2">1 or 2 days</option><option value="4">3 to 5 days</option><option value="7">About a week</option><option value="10">More than a week</option></select></div>
+</div>
+<div class="step"><span class="label">Step 3</span><h2>Sort your misses</h2><p>Go through each question you missed (your instructor may let you review your exam) and count it under the best fit.</p>
+<div class="mt" id="types"></div></div>
+<div class="step plan"><span class="label">Step 4</span><h2>Your plan for next time</h2><p>We filled in suggestions from your pattern. Edit them so they are yours.</p>
+<label for="p1"><b>1.</b> Change in how I study</label><textarea id="p1"></textarea>
+<label for="p2" style="display:block;margin-top:10px"><b>2.</b> Change in when I study</label><textarea id="p2"></textarea>
+<label for="p3" style="display:block;margin-top:10px"><b>3.</b> One person or resource I will use</label><textarea id="p3"></textarea>
+<div class="btnrow"><button class="btn green" type="button" id="save">Save this wrapper</button><button class="btn ghost" type="button" onclick="window.print()">Print</button></div>
+<p class="saved" id="savedmsg" aria-live="polite"></p></div>
+</div>
+<aside class="ewside">
+<div class="card"><span class="label">Your pattern</span><div id="pat"><p style="color:var(--mute);font-size:14.5px">Count your misses in Step 3 to see your pattern here.</p></div></div>
+<div class="card" id="past"></div>
+<p class="privacy"><b>Private.</b> Saved only in this browser on this device.</p>
+</aside>
+</div>
+</div>
+<script>
+(function(){
+  "use strict";
+  var S=window.S243;
+  var PREP=["Read the chapters before class","Did the Reading Guide as I went","Made and used flashcards","Did practice questions without notes","Wrote things out from memory (blank page)","Mixed chapters when I practiced","Went to SI, tutoring or a study group","Went to student hours","Reread my notes or the slides","Highlighted or recopied notes","Used AI to quiz me","Slept 7 or more hours the night before"];
+  var STRONG={2:1,3:1,4:1,5:1,6:1,11:1};
+  var TY=[["know","I did not know it","The fact or idea was not in my head yet.","#00693e","Shift study time from rereading to self-testing. Use blank-page recall and practice questions every study day, and add the topics you missed to the Spaced Review Tracker."],
+   ["misread","I knew it but misread the question","Missed a NOT or EXCEPT, or answered a different question.","#c8a84b","Slow down on every stem: underline NOT, EXCEPT, BEST and MOST, and predict the answer before you look at the options."],
+   ["time","I ran out of time or rushed","Guessed at the end or skimmed.","#0c6f80","Do timed practice sets, and use skip-and-return: mark a hard question, move on, come back."],
+   ["wrong","I studied the wrong things","The exam asked about things I had skipped or skimmed.","#9c6fb5","Use the Reading Guide and the syllabus topic list as your map, and ask your instructor what to focus on."],
+   ["change","I changed a right answer or made a careless slip","Second-guessed myself or bubbled wrong.","#e3a26b","Only change an answer when you have a clear reason, and save two minutes at the end to check your answers transfer correctly."],
+   ["mixup","I mixed up similar terms","Like osteoblast and osteoclast, or afferent and efferent.","#b0332c","Make contrast cards: put look-alike terms side by side with how to tell them apart, and quiz both directions."]];
+  var cnt={};TY.forEach(function(t){cnt[t[0]]=0;});
+  document.getElementById("prep").innerHTML=PREP.map(function(p,i){return '<label><input type="checkbox" value="'+i+'"><span>'+p+'</span></label>';}).join("");
+  document.getElementById("types").innerHTML=TY.map(function(t){return '<div class="r"><div><b>'+t[1]+'</b><small>'+t[2]+'</small></div><div class="stp"><button type="button" data-t="'+t[0]+'" data-d="-1" aria-label="One less: '+t[1]+'">&minus;</button><output id="o_'+t[0]+'" aria-live="polite">0</output><button type="button" data-t="'+t[0]+'" data-d="1" aria-label="One more: '+t[1]+'">+</button></div></div>';}).join("");
+  document.getElementById("types").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var k=b.getAttribute("data-t");cnt[k]=Math.max(0,cnt[k]+(+b.getAttribute("data-d")));document.getElementById("o_"+k).textContent=cnt[k];pattern();});
+  var touched={p1:0,p2:0,p3:0};["p1","p2","p3"].forEach(function(id){document.getElementById(id).addEventListener("input",function(){touched[id]=1;});});
+  function prepSel(){return [].map.call(document.querySelectorAll("#prep input:checked"),function(x){return +x.value;});}
+  document.getElementById("prep").addEventListener("change",pattern);document.getElementById("days").addEventListener("change",pattern);
+  function pattern(){var tot=0;TY.forEach(function(t){tot+=cnt[t[0]];});var box=document.getElementById("pat");
+    var sel=prepSel(),strong=sel.filter(function(i){return STRONG[i];}).length,passive=sel.indexOf(8)>=0||sel.indexOf(9)>=0,days=+document.getElementById("days").value;
+    if(!tot){box.innerHTML='<p style="color:var(--mute);font-size:14.5px">Count your misses in Step 3 to see your pattern here.</p>';return;}
+    var a=0,svg='';TY.forEach(function(t){var v=cnt[t[0]];if(!v)return;var f=v/tot;if(f>=.999){svg+='<circle cx="60" cy="60" r="44" fill="none" stroke="'+t[3]+'" stroke-width="28"/>';return;}var a0=a*2*Math.PI-Math.PI/2,a1=(a+f)*2*Math.PI-Math.PI/2;var x0=60+44*Math.cos(a0),y0=60+44*Math.sin(a0),x1=60+44*Math.cos(a1),y1=60+44*Math.sin(a1);svg+='<path d="M'+x0.toFixed(2)+' '+y0.toFixed(2)+' A44 44 0 '+(f>.5?1:0)+' 1 '+x1.toFixed(2)+' '+y1.toFixed(2)+'" fill="none" stroke="'+t[3]+'" stroke-width="28"/>';a+=f;});
+    var top=TY.slice().sort(function(x,y){return cnt[y[0]]-cnt[x[0]];})[0];
+    var h='<div class="pie"><svg viewBox="0 0 120 120" role="img" aria-label="Your misses by type">'+svg+'<text x="60" y="58" text-anchor="middle" font-size="24" font-weight="700" fill="currentColor">'+tot+'</text><text x="60" y="76" text-anchor="middle" font-size="11" fill="currentColor">missed</text></svg><ul class="leg">'+TY.filter(function(t){return cnt[t[0]];}).map(function(t){return '<li><i style="background:'+t[3]+'"></i>'+t[1]+': <b>'+cnt[t[0]]+'</b></li>';}).join("")+'</ul></div>';
+    h+='<div class="fix"><b>Your biggest pattern: '+top[1].toLowerCase()+'.</b><br>'+top[4]+'</div>';
+    var notes=[];if(passive&&strong<2)notes.push("Most of your prep was rereading or recopying. Those feel productive but build weak memory. Trade half of that time for self-testing.");
+    if(days<=2)notes.push("You started "+(days===0?"the night before":"only a day or two out")+". Next time, open the Exam Planner 7 to 10 days before.");
+    if(sel.indexOf(11)<0)notes.push("Protect sleep the night before. It helps lock in what you studied.");
+    if(notes.length)h+='<ul style="font-size:14px;padding-left:18px;margin:12px 0 0;line-height:1.5">'+notes.map(function(n){return "<li>"+n+"</li>";}).join("")+'</ul>';
+    box.innerHTML=h;
+    if(!touched.p1)document.getElementById("p1").value=top[4];
+    if(!touched.p2)document.getElementById("p2").value=days<=4?"Start 7 to 10 days before the next exam with the Exam Planner, in short daily blocks.":"Keep starting early, and add one spaced re-test of older chapters each study day.";
+    if(!touched.p3)document.getElementById("p3").value=top[0]==="wrong"?"Visit student hours with my list of missed topics and ask what to focus on.":"Go to one SI session or student hours before the next exam with one specific question.";}
+  var NM={e1:"Exam 1",e2:"Exam 2",e3:"Exam 3",fin:"Final exam",q:"A quiz"};
+  function past(){var all=S.get("ew_all",{}),ks=Object.keys(all),box=document.getElementById("past");
+    if(!ks.length){box.innerHTML='<span class="label">Saved wrappers</span><p style="color:var(--mute);font-size:14px">None yet. Save this one and it will be here when you plan the next exam.</p>';return;}
+    box.innerHTML='<span class="label">Saved wrappers</span>'+ks.map(function(k){var w=all[k],tot=0,top=null;TY.forEach(function(t){tot+=w.cnt[t[0]]||0;if(!top||(w.cnt[t[0]]||0)>(w.cnt[top[0]]||0))top=t;});
+      return '<div style="padding:8px 0;border-bottom:1px dashed var(--line)"><b>'+NM[k]+'</b>'+(w.score?' · '+w.score:'')+'<br><small style="color:var(--mute)">'+tot+' misses · biggest: '+(tot?top[1].toLowerCase():"none")+'</small><br><small><b>Plan:</b> '+String(w.p1||"").replace(/</g,"&lt;").slice(0,140)+'</small></div>';}).join("");}
+  document.getElementById("save").onclick=function(){var all=S.get("ew_all",{});var k=document.getElementById("ex").value;
+    all[k]={cnt:cnt,prep:prepSel(),days:+document.getElementById("days").value,score:document.getElementById("score").value.slice(0,6),p1:document.getElementById("p1").value,p2:document.getElementById("p2").value,p3:document.getElementById("p3").value};
+    S.set("ew_all",all);document.getElementById("savedmsg").textContent="Saved on this device. Open the Exam Planner when you are ready to plan the next exam.";past();};
+  document.getElementById("ex").addEventListener("change",function(){var all=S.get("ew_all",{}),w=all[this.value];
+    TY.forEach(function(t){cnt[t[0]]=w?(w.cnt[t[0]]||0):0;document.getElementById("o_"+t[0]).textContent=cnt[t[0]];});
+    [].forEach.call(document.querySelectorAll("#prep input"),function(x){x.checked=!!(w&&w.prep.indexOf(+x.value)>=0);});
+    if(w){document.getElementById("days").value=String(w.days);document.getElementById("score").value=w.score||"";["p1","p2","p3"].forEach(function(id){document.getElementById(id).value=w[id]||"";touched[id]=1;});}
+    else{document.getElementById("score").value="";["p1","p2","p3"].forEach(function(id){document.getElementById(id).value="";touched[id]=0;});}
+    pattern();});
+  past();
+})();
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div><a class="logo" href="../index.html"><span class="crest" aria-hidden="true">243</span><span><b>Success Lab</b><small>BIO 243 · USC Upstate</small></span></a>
+<p class="who"><b>BIO 243 Success Lab</b><br>An optional companion to BIOL U243 Human Anatomy and Physiology I at USC Upstate<br>By Dr. Akash Garg</p></div>
+<div><h2>Plan</h2><ul><li><a href="../weeks/index.html">The 15 weeks</a></li><li><a href="../tools/time-budget.html">Time Budget</a></li><li><a href="../tools/exam-planner.html">Exam Planner</a></li><li><a href="../tools/spaced-review.html">Spaced Review Tracker</a></li></ul></div>
+<div><h2>Learn</h2><ul><li><a href="../book/index.html">The Success Book</a></li><li><a href="../flashcards.html">Flashcards</a></li><li><a href="../tools/self-check.html">Study Habits Self-Check</a></li><li><a href="../tools/exam-wrapper.html">Exam Wrapper</a></li><li><a href="../printables/index.html">Printables</a></li></ul></div>
+<div><h2>Play</h2><ul><li><a href="../games/chase.html">The Success Chase</a></li><li><a href="../games/smart-or-shady.html">AI: Smart or Shady?</a></li><li><a href="../games/prompt-lab.html">AI Prompt Lab</a></li></ul></div>
+<p class="fine">This site is optional and does not replace the BIO 243 syllabus or Blackboard. When they differ, your syllabus and your instructor win. Nothing you type here leaves your device. Textbook references are to OpenStax <i>Anatomy and Physiology</i> (CC BY 4.0). Site content CC BY-NC-SA 4.0.</p>
+</div></footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

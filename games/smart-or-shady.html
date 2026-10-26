@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI: Smart or Shady?</title>
+<meta name="description" content="A BIO 243 Success Lab game: judge real situations about using AI in Anatomy and Physiology I as smart, shady, or check first.">
+<meta name="theme-color" content="#00693e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#00693e; --brand2:#004f2e; --brandsoft:#e3f1ea; --gold:#c8a84b; --golddeep:#7a5d0e; --goldsoft:#f7efd8;
+  --ink:#16221b; --mute:#56645c; --line:#dce3de; --card:#ffffff; --bg:#f4f1e8; --bg2:#ebe6d7;
+  --ok:#1b7a43; --oksoft:#e2f4e8; --bad:#b3261e; --badsoft:#fbe7e5; --chk:#8a6400; --chksoft:#fbf1d6;
+  --shadow:0 1px 2px rgba(20,30,25,.08),0 6px 20px rgba(20,30,25,.08);
+  --r:16px;
+  --fd:"Fraunces",Georgia,"Times New Roman",serif;
+  --fb:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --brandsoft:#13362a; --goldsoft:#3a3220; --ink:#eef3ef; --mute:#a9b8af; --line:#2c3a33; --card:#17211c; --bg:#0f1713; --bg2:#141e19;
+    --ok:#43b874; --oksoft:#173a26; --bad:#ff8a80; --badsoft:#3d1d1b; --chk:#f0c75a; --chksoft:#3a3015; --golddeep:#f0c75a;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.5;min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+a{color:var(--brand)}
+@media (prefers-color-scheme:dark){a{color:#7fd3a8}}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:8px;padding:8px 12px;padding-top:max(8px,env(safe-area-inset-top));background:var(--brand);color:#fff;box-shadow:0 2px 0 var(--gold)}
+.back{color:#fff;text-decoration:none;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border-radius:8px;white-space:nowrap}
+.back:hover{background:rgba(255,255,255,.12)}
+.bar .ttl{flex:1;min-width:0;font-family:var(--fd);font-weight:800;font-size:17px;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.ibtn{appearance:none;border:1.5px solid rgba(255,255,255,.45);background:transparent;color:#fff;border-radius:10px;min-width:40px;height:36px;padding:0 8px;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:13px;font-weight:600}
+.ibtn:hover{background:rgba(255,255,255,.12)}
+.ibtn svg{width:18px;height:18px}
+.ibtn .lbl{display:none}
+@media (min-width:700px){.ibtn .lbl{display:inline}}
+
+main{max-width:1180px;margin:0 auto;padding:12px 16px 24px}
+.screen[hidden]{display:none!important}
+
+/* pixel scene */
+.scene{position:relative;border-radius:var(--r);overflow:hidden;background:#20302a;box-shadow:var(--shadow);border:3px solid var(--brand2);aspect-ratio:16/9;width:100%}
+.scene canvas{display:block;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+.scene .tag{position:absolute;left:8px;bottom:8px;background:rgba(10,20,15,.72);color:#fff;font-size:12px;font-weight:700;padding:4px 8px;border-radius:999px;letter-spacing:.3px;display:flex;gap:6px;align-items:center}
+.scene .tag i{width:8px;height:8px;border-radius:2px;background:var(--gold);display:inline-block}
+
+.bubble{position:absolute;right:44%;top:3%;background:#fff;color:#16221b;font-weight:900;font-size:clamp(12px,2.6vw,16px);padding:5px 10px;border-radius:10px;border:2px solid #16221b;box-shadow:3px 3px 0 rgba(0,0,0,.25);opacity:0;transform:translateY(6px) scale(.9);transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap}
+.bubble::after{content:"";position:absolute;right:-9px;top:50%;margin-top:-5px;border:5px solid transparent;border-left:8px solid #16221b}
+.bubble.on{opacity:1;transform:none}
+.bubble.good{color:#1b7a43}.bubble.bad{color:#b3261e}.bubble.chk{color:#7a5d0e}
+@media (max-width:480px){.bar .ttl{visibility:hidden}}
+/* title */
+.hero{display:grid;gap:16px;align-items:center}
+.hero h1{font-family:var(--fd);font-weight:800;font-size:clamp(30px,8vw,52px);line-height:1.02;margin:4px 0 6px;letter-spacing:-.5px}
+.hero h1 em{font-style:normal;color:var(--brand)}
+@media (prefers-color-scheme:dark){.hero h1 em{color:#5fd39a}}
+.hero h1 b{color:var(--golddeep)}
+.kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--golddeep)}
+.lede{color:var(--mute);margin:0 0 12px;max-width:52ch}
+.howto{display:grid;gap:8px;margin:12px 0 16px;padding:0;list-style:none}
+.howto li{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.pill{flex:none;font-size:12px;font-weight:800;letter-spacing:.6px;padding:4px 8px;border-radius:8px;color:#fff;min-width:96px;text-align:center}
+.pill.smart{background:var(--ok)} .pill.shady{background:#b3261e} .pill.check{background:var(--gold);color:#2a2005}
+@media (prefers-color-scheme:dark){.pill.smart{background:#1f8a4d}}
+.cta{appearance:none;border:0;cursor:pointer;background:var(--brand);color:#fff;font-weight:800;font-size:17px;padding:14px 22px;border-radius:14px;box-shadow:0 4px 0 var(--brand2);display:inline-flex;align-items:center;gap:10px;min-height:52px}
+.cta:hover{filter:brightness(1.07)} .cta:active{transform:translateY(2px);box-shadow:0 2px 0 var(--brand2)}
+.cta.gold{background:var(--gold);color:#241b02;box-shadow:0 4px 0 #9c7f2a}
+.ghost{appearance:none;cursor:pointer;background:var(--card);border:1.5px solid var(--line);color:var(--ink);font-weight:700;padding:12px 16px;border-radius:12px;min-height:48px}
+.ghost:hover{border-color:var(--brand)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+details.rules{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-top:16px}
+details.rules summary{cursor:pointer;padding:12px 14px;font-weight:800;list-style:none;display:flex;align-items:center;justify-content:space-between}
+details.rules summary::-webkit-details-marker{display:none}
+details.rules summary::after{content:"+";font-size:20px;color:var(--brand);font-weight:800}
+details.rules[open] summary::after{content:"\2212"}
+.rulelist{margin:0;padding:0 14px 12px;list-style:none;display:grid;gap:8px}
+.rulelist li{display:flex;gap:10px;align-items:flex-start}
+.rnum{flex:none;width:28px;height:28px;border-radius:8px;background:var(--brand);color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
+.rulelist b{display:block}
+.rulelist span{color:var(--mute);font-size:14px}
+@media (min-width:860px){.hero{grid-template-columns:1.1fr 1fr;gap:32px}}
+
+/* map */
+.maphead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:4px 0 10px}
+.maphead h2{font-family:var(--fd);font-size:28px;margin:0;line-height:1.1}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 10px;font-size:13px;color:var(--mute)}
+.stat b{color:var(--ink);font-size:16px;margin-right:4px}
+.mapwrap{position:relative;background:radial-gradient(120% 80% at 10% 0%,rgba(200,168,75,.18),transparent 60%),linear-gradient(180deg,var(--brandsoft),var(--bg2));border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.mapwrap svg.road{position:absolute;left:0;top:0;pointer-events:none}
+.nodes{position:relative;display:grid;grid-template-columns:repeat(2,1fr);gap:26px 8px;padding:24px 8px 22px}
+.node{appearance:none;background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:6px 4px;border-radius:16px;position:relative;z-index:1}
+.node:hover:not([disabled]) .medal{transform:translateY(-2px)}
+.node[disabled]{cursor:not-allowed}
+.medal{width:78px;height:78px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#23935f,#00693e 58%,#004a2b);display:grid;place-items:center;box-shadow:0 5px 0 #003a22,0 0 0 5px var(--card),0 0 0 7px var(--gold),0 10px 18px rgba(0,0,0,.18);position:relative;transition:transform .15s;margin-bottom:8px}
+.medal svg{width:40px;height:40px}
+.medal .num{position:absolute;top:-8px;right:-8px;width:28px;height:28px;border-radius:50%;background:var(--gold);color:#241b02;font-weight:900;font-size:14px;display:grid;place-items:center;box-shadow:0 2px 0 #9c7f2a;border:2px solid var(--card)}
+.node[disabled] .medal{background:radial-gradient(circle at 35% 30%,#a9b3ae,#86918b 60%,#6f7a74);box-shadow:0 5px 0 #59625d,0 0 0 5px var(--card),0 0 0 7px var(--line)}
+.node[disabled] .medal svg.ico{opacity:.35}
+.medal .lk{position:absolute;width:30px;height:30px;bottom:-6px;left:-6px;background:var(--card);border-radius:50%;display:grid;place-items:center;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+.medal .lk svg{width:16px;height:16px;color:var(--mute)}
+.node.next .medal::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:3px solid var(--gold);animation:ring 1.6s ease-out infinite}
+@keyframes ring{from{transform:scale(.85);opacity:.9}to{transform:scale(1.15);opacity:0}}
+.node .lv{font-size:11px;font-weight:800;letter-spacing:1px;color:var(--golddeep);text-transform:uppercase}
+.node .nm{font-family:var(--fd);font-weight:800;font-size:18px;line-height:1.1;background:var(--card);padding:2px 10px;border-radius:999px;box-shadow:0 1px 0 var(--line)}
+.node[disabled] .nm{color:var(--mute)}
+.node .seen{font-size:12px;color:var(--mute)}
+.stars{display:inline-flex;gap:2px}
+.stars svg{width:18px;height:18px}
+.node .play{position:absolute;top:-4px;left:50%;transform:translateX(-50%);background:var(--gold);color:#241b02;font-size:11px;font-weight:900;padding:2px 9px;border-radius:999px;letter-spacing:.6px;z-index:2;box-shadow:0 2px 0 #9c7f2a}
+@media (min-width:700px){.nodes{grid-template-columns:repeat(3,1fr);gap:30px 18px;padding:28px 20px}}
+.mapfoot{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center;justify-content:space-between}
+
+/* play */
+.play{display:grid;gap:12px}
+.hud{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.hud .lvname{font-family:var(--fd);font-weight:800;font-size:18px;line-height:1.1}
+.hud .lvname small{display:block;font-family:var(--fb);font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--golddeep)}
+.chips{display:flex;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.chip svg{width:16px;height:16px}
+.chip.hot{background:#fff1d6;border-color:var(--gold);color:#6b4b00}
+@media (prefers-color-scheme:dark){.chip.hot{background:#3a2c0c;color:#ffd06a}}
+.prog{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--gold));width:0;transition:width .35s ease}
+.stagecol{display:grid;gap:10px;align-content:start}
+.cardcol{display:flex;flex-direction:column;gap:10px;min-width:0}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow);touch-action:pan-y;user-select:none;-webkit-user-select:none;will-change:transform;min-height:150px}
+.card.anim{transition:transform .28s cubic-bezier(.2,.8,.2,1),opacity .28s}
+.card .who{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.card .who .dot{width:8px;height:8px;border-radius:2px;background:var(--gold)}
+.card p.sit{font-size:18px;line-height:1.45;margin:0;font-weight:500}
+.aibox{margin-top:12px;border-radius:14px;border:1.5px dashed var(--brand);background:var(--brandsoft);padding:10px 12px}
+.aibox .al{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--brand);display:flex;align-items:center;gap:6px;margin-bottom:4px}
+@media (prefers-color-scheme:dark){.aibox .al{color:#7fd3a8}}
+.aibox p{margin:0;font-size:16px}
+.ask{margin:12px 0 0;font-weight:800;font-size:15px;color:var(--ink)}
+.stamp{position:absolute;top:14px;font-weight:900;font-size:20px;letter-spacing:2px;padding:4px 10px;border:3px solid;border-radius:8px;opacity:0;pointer-events:none;transform:rotate(-10deg);background:var(--card)}
+.stamp.r{right:14px;color:var(--ok);border-color:var(--ok);transform:rotate(10deg)}
+.stamp.l{left:14px;color:var(--bad);border-color:var(--bad)}
+.hint{font-size:12px;color:var(--mute);text-align:center;margin:0}
+/* feedback */
+.fb{border-radius:18px;padding:16px;border:2px solid var(--line);background:var(--card);box-shadow:var(--shadow);animation:pop .3s ease}
+.fb.good{border-color:var(--ok);background:linear-gradient(180deg,var(--oksoft),var(--card) 70%)}
+.fb.miss{border-color:var(--bad);background:linear-gradient(180deg,var(--badsoft),var(--card) 70%)}
+.fb h3{margin:0 0 4px;font-family:var(--fd);font-size:22px;line-height:1.15;display:flex;align-items:center;gap:8px}
+.fb h3 svg{width:26px;height:26px;flex:none}
+.fb .ans{font-size:14px;color:var(--mute);margin:0 0 8px}
+.fb .ans b{color:var(--ink)}
+.fb p.why{margin:0 0 10px;font-size:16px}
+.rtag{display:flex;gap:10px;align-items:flex-start;background:var(--goldsoft);border-radius:12px;padding:8px 10px;margin-top:6px;font-size:14px}
+.rtag .rnum{width:24px;height:24px;font-size:13px;border-radius:7px}
+.src{font-size:13px;color:var(--mute);margin-top:8px;display:flex;gap:6px;align-items:center}
+.src svg{width:16px;height:16px;flex:none}
+@keyframes pop{from{transform:scale(.97);opacity:.4}to{transform:none;opacity:1}}
+/* action bar */
+.actions{position:sticky;bottom:0;z-index:20;padding:10px 0;padding-bottom:max(10px,env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(0,0,0,0),var(--bg) 30%)}
+.btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.btns.two{grid-template-columns:1fr 1fr}
+.vb{appearance:none;border:0;cursor:pointer;border-radius:14px;min-height:58px;padding:6px 4px;font-weight:900;font-size:15px;letter-spacing:.6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.25);transition:transform .08s}
+.vb small{font-size:10px;font-weight:700;letter-spacing:.4px;opacity:.9;text-transform:none}
+.vb:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.vb.shady{background:#b3261e} .vb.smart{background:#1b7a43} .vb.check{background:var(--gold);color:#241b02}
+.vb[disabled]{opacity:.45;cursor:default}
+.vb .k{display:none}
+@media (hover:hover) and (pointer:fine){.vb .k{display:inline;font-size:10px;opacity:.75;font-weight:700}}
+.next{width:100%}
+/* end screens */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}
+.panel h2{font-family:var(--fd);font-size:28px;margin:0 0 4px;line-height:1.1}
+.bigstars{display:flex;gap:6px;justify-content:center;margin:10px 0}
+.bigstars svg{width:46px;height:46px}
+.scoreline{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.scoreline div{background:var(--bg);border-radius:12px;padding:8px;text-align:center;font-size:12px;color:var(--mute)}
+.scoreline b{display:block;font-size:22px;color:var(--ink);font-variant-numeric:tabular-nums}
+.rank{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;margin:8px 0 12px}
+.rank .badge{width:96px;height:96px}
+.rank h3{font-family:var(--fd);margin:0;font-size:26px;line-height:1.1}
+.rank p{margin:2px 0 0;color:var(--mute)}
+.recap{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:10px}
+.recap li{background:var(--bg);border-radius:14px;padding:10px 12px}
+.recap .top{display:flex;gap:10px;align-items:center}
+.recap .bar2{height:8px;border-radius:9px;background:var(--line);margin-top:8px;overflow:hidden}
+.recap .bar2 i{display:block;height:100%;background:var(--bad)}
+.recap .tip{font-size:14px;color:var(--mute);margin:6px 0 0}
+.endgrid{display:grid;gap:14px}
+@media (min-width:860px){.endgrid{grid-template-columns:1fr 1fr}}
+
+/* landscape phone + desktop two-column play */
+@media (min-width:640px) and (orientation:landscape), (min-width:900px){
+  .play{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:start;column-gap:16px}
+  .play .hud,.play .prog{grid-column:1/-1}
+  .stagecol{position:sticky;top:64px}
+}
+@media (orientation:landscape) and (max-height:500px){
+  main{padding:8px 12px 12px}
+  .bar{padding-top:6px;padding-bottom:6px}
+  .ibtn{height:32px}
+  .play{row-gap:8px}
+  .hud .lvname{font-size:16px}
+  .card{padding:12px;min-height:0}
+  .card p.sit{font-size:16px}
+  .vb{min-height:48px}
+  .actions{padding:6px 0}
+  .stagecol{top:52px}
+  .scene .tag{font-size:11px}
+  .hero{grid-template-columns:1fr 1fr;gap:18px}
+  .hero h1{font-size:30px}
+  .nodes{grid-template-columns:repeat(3,1fr);gap:14px 12px;padding:18px 12px}
+  .medal{width:64px;height:64px}.medal svg{width:32px;height:32px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* toast */
+.toast{position:fixed;left:50%;top:70px;transform:translateX(-50%) translateY(-20px);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font-weight:800;font-size:14px;opacity:0;transition:.25s;z-index:50;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+dialog{border:0;border-radius:20px;padding:0;max-width:min(560px,calc(100vw - 32px));width:100%;background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(5,15,10,.55)}
+.dlg{padding:18px}
+.dlg h2{font-family:var(--fd);margin:0 0 10px;font-size:24px}
+.foot{margin-top:22px;text-align:center;font-size:12px;color:var(--mute)}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="back" href="../index.html"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to the Success Lab</a>
+  <div class="ttl" aria-hidden="true">Smart or Shady?</div>
+  <button class="ibtn" id="rulesBtn" type="button" aria-label="Show the five BIO 243 AI rules"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="2.5" width="14" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6.5 7h7M6.5 10h7M6.5 13h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="lbl">Rules</span></button>
+  <button class="ibtn" id="sndBtn" type="button" aria-pressed="false" aria-label="Sound effects off. Turn on"><svg viewBox="0 0 20 20" aria-hidden="true" id="sndIco"></svg><span class="lbl" id="sndLbl">Sound off</span></button>
+</header>
+
+<main>
+<div id="live" class="sr" aria-live="polite"></div>
+
+<!-- TITLE -->
+<section class="screen" id="scTitle" aria-labelledby="tTitle">
+  <div class="hero">
+    <div class="scene" id="titleScene"><canvas width="192" height="108" aria-hidden="true"></canvas><span class="tag"><i></i>BIO 243 Success Lab</span></div>
+    <div>
+      <div class="kicker">A game about using AI the right way</div>
+      <h1 id="tTitle">AI: <em>Smart</em> or <b>Shady?</b></h1>
+      <p class="lede">You are a BIO 243 student with an AI helper. Six levels, real situations. Judge each one, then see which of the five BIO 243 AI rules applies.</p>
+      <ul class="howto">
+        <li><span class="pill smart">SMART</span><span>Fine to do. AI is helping you learn.</span></li>
+        <li><span class="pill check">CHECK FIRST</span><span>It depends on that instructor or assignment. Ask before you use it.</span></li>
+        <li><span class="pill shady">SHADY</span><span>Breaks a rule or puts you or someone else at risk.</span></li>
+      </ul>
+      <div class="row">
+        <button class="cta" id="startBtn" type="button">Start playing <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M6 3l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <span class="stat" id="titleBest"></span>
+      </div>
+      <details class="rules"><summary>The five BIO 243 AI rules</summary><ol class="rulelist" id="rulesA"></ol></details>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="screen" id="scMap" hidden aria-labelledby="mTitle">
+  <div class="maphead">
+    <div><div class="kicker">Level map</div><h2 id="mTitle" tabindex="-1">Pick your next level</h2></div>
+    <div class="stats"><span class="stat"><b id="mStars">0</b>of 18 stars</span><span class="stat"><b id="mSeen">0</b>of <span id="mTotal">0</span> seen</span><span class="stat"><b id="mBest">0</b>best total</span></div>
+  </div>
+  <div class="mapwrap">
+    <svg class="road" id="road" aria-hidden="true"></svg>
+    <div class="nodes" id="nodes"></div>
+  </div>
+  <div class="mapfoot">
+    <span class="hint" style="text-align:left">Levels unlock in order. Replay any level to raise your stars.</span>
+    <div class="row"><button class="ghost" id="rankBtn" type="button">See my rank</button><button class="ghost" id="resetBtn" type="button">Reset progress</button></div>
+  </div>
+</section>
+
+<!-- PLAY -->
+<section class="screen" id="scPlay" hidden aria-labelledby="pLevel">
+  <div class="play">
+    <div class="hud">
+      <div class="lvname" id="pLevel" tabindex="-1"><small id="pLvNum">Level 1</small><span id="pLvName">Study Buddy</span></div>
+      <div class="chips">
+        <span class="chip" id="pCount" aria-label="Question progress">1 / 8</span>
+        <span class="chip" id="pStreak" aria-label="Streak"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1c1 3 4 4 4 8a4 4 0 0 1-8 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 0-7z" fill="#e0782a"/><path d="M8 9c1 1 2 2 2 3a2 2 0 0 1-4 0c0-1 1-2 2-3z" fill="#f7c948"/></svg><span>0</span></span>
+        <span class="chip" id="pScore" aria-label="Score"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l2 4.2 4.6.6-3.4 3.1.9 4.6L8 11.8 3.9 14l.9-4.6L1.4 6.3 6 5.7z" fill="#c8a84b"/></svg><span>0</span></span>
+      </div>
+    </div>
+    <div class="prog" aria-hidden="true"><i id="pBar"></i></div>
+    <div class="stagecol">
+      <div class="scene" id="playScene"><canvas width="192" height="108" aria-hidden="true"></canvas><span class="tag" id="sceneTag"><i></i>Your desk</span><div class="bubble" id="bubble" aria-hidden="true"></div></div>
+    </div>
+    <div class="cardcol">
+      <div id="cardHost"></div>
+      <div class="actions" id="actions"></div>
+    </div>
+  </div>
+</section>
+
+<!-- LEVEL END -->
+<section class="screen" id="scEnd" hidden aria-labelledby="eTitle">
+  <div class="endgrid">
+    <div class="panel" style="text-align:center">
+      <div class="kicker" id="eKick">Level complete</div>
+      <h2 id="eTitle" tabindex="-1">Nice work</h2>
+      <div class="bigstars" id="eStars" aria-hidden="true"></div>
+      <p id="eMsg" style="margin:0;color:var(--mute)"></p>
+      <div class="scoreline"><div><b id="eCorrect">0</b>correct</div><div><b id="eBestStreak">0</b>best streak</div><div><b id="eScore">0</b>points</div></div>
+      <div class="row" style="justify-content:center"><button class="cta" id="eNext" type="button">Next level</button><button class="ghost" id="eRetry" type="button">Replay</button><button class="ghost" id="eMap" type="button">Level map</button></div>
+    </div>
+    <div class="panel"><h2 style="font-size:22px">Rules to watch</h2><p style="margin:0;color:var(--mute);font-size:14px" id="eRecapNote"></p><ul class="recap" id="eRecap"></ul></div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="screen" id="scFinal" hidden aria-labelledby="fTitle">
+  <div class="endgrid">
+    <div class="panel">
+      <div class="scene" id="finalScene" style="margin-bottom:14px"><canvas width="192" height="108" aria-hidden="true"></canvas><span class="tag"><i></i>Rank ceremony</span></div>
+      <div class="kicker">Your rank</div>
+      <h2 id="fTitle" tabindex="-1" class="sr">Final rank</h2>
+      <div class="rank"><svg class="badge" id="fBadge" viewBox="0 0 96 96" aria-hidden="true"></svg><div><h3 id="fRank">AI Rookie</h3><p id="fRankMsg"></p></div></div>
+      <div class="scoreline"><div><b id="fAcc">0%</b>accuracy</div><div><b id="fStars">0</b>stars</div><div><b id="fTotal">0</b>total points</div></div>
+      <div class="row"><button class="cta" id="fMap" type="button">Back to the map</button><button class="ghost" id="fAgain" type="button">Play from Level 1</button></div>
+    </div>
+    <div class="panel"><h2 style="font-size:22px">Rules you missed most</h2><p style="margin:0;color:var(--mute);font-size:14px" id="fRecapNote"></p><ul class="recap" id="fRecap"></ul></div>
+  </div>
+</section>
+<p class="foot">BIO 243 Success Lab, by Dr. Akash Garg. All situations and students are fictional. Your progress stays on this device.</p>
+</main>
+
+<dialog id="rulesDlg" aria-labelledby="dlgT"><div class="dlg"><h2 id="dlgT">The five BIO 243 AI rules</h2><ol class="rulelist" id="rulesB" style="padding:0"></ol><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="cta" id="dlgClose" type="button">Got it</button></div></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- rules ---------- */
+var RULES={
+ 1:["Use AI as a tutor, not a ghostwriter.","Ask it to quiz you, explain a topic another way, or check your explanation. It is fine for studying."],
+ 2:["No AI on quizzes, exams or graded work","(Guided Practice, Reading Guide, CircleIn posts) unless the assignment says so. Never paste quiz or exam questions into AI."],
+ 3:["Check AI against the textbook.","AI makes confident mistakes. OpenStax and your notes win."],
+ 4:["Keep it private.","Never paste in personal information: yours or anyone else's (student ID, grades, health details, classmates' names)."],
+ 5:["Every class is different.","USC Upstate leaves many AI decisions to each instructor. In other courses, follow that syllabus, and when in doubt, ask before you use it. If AI use is allowed on an assignment, say how you used it."]
+};
+var TIPS={
+ 1:"Before you ask AI anything, ask yourself: will this help me learn it, or just help me finish it?",
+ 2:"Graded work, quizzes and exams are you alone. Study with AI before, then close it.",
+ 3:"Treat every AI fact as a claim to verify. Find it in OpenStax before it goes in your notes.",
+ 4:"Describe your situation in general terms. No names, IDs, grades or health details.",
+ 5:"Each syllabus sets its own AI rules. When the syllabus is silent, ask first and disclose how you used it."
+};
+/* ---------- levels and scenarios ----------
+ verdict: s = SMART, x = SHADY, c = CHECK FIRST; Level 5 uses r = AI is right, w = AI is wrong */
+var LEVELS=[
+ {id:1,name:"Study Buddy",blurb:"Everyday ways to study with AI.",sky:0,place:"Your desk, morning",icon:"book",items:[
+  ["1a","s",[1],"Maya asks an AI to quiz her on the four tissue types, one question at a time, so she can practice before Exam 1.","This is AI as a tutor. Quizzing yourself is one of the strongest ways to study, and nothing graded is involved."],
+  ["1b","s",[1,3],"The textbook explanation of the sliding filament model did not click for Jordan, so he asks AI to explain it another way, then rereads OpenStax to make sure it matches.","Explaining a topic another way is exactly what a tutor does. Jordan also checks it against the textbook, which is a great habit."],
+  ["1c","x",[1],"Devon has AI write a summary of Chapter 4 and skips the reading because the summary seems good enough.","Not against a written rule, but risky. Reading before class is part of how you learn the material, and a summary you did not build will not stick. Use AI to test what you read, not to replace reading it."],
+  ["1d","s",[1],"Sam writes his own explanation of negative feedback and asks AI to point out anything that is missing or unclear.","You did the thinking and AI is checking your explanation. That is tutor mode at its best."],
+  ["1e","s",[1],"Alex asks AI to help him build a weekly schedule with 4 to 6 hours of study for lecture, around his job shifts.","Planning your study time is a fine use. The syllabus asks for 4 to 6 hours a week for lecture, and a written plan makes that real."],
+  ["1f","s",[1],"Kiara asks AI for a practice test on Chapters 1 to 4, then takes it with her notes closed.","Practice testing, done honestly, is studying. Closing the notes is what makes it work."],
+  ["1g","x",[3],"Leo asks AI for answers to his practice questions and copies them straight into his notes without checking any of them.","AI makes confident mistakes. If an error lands in your notes, you will study the wrong thing. Check each answer in OpenStax first."],
+  ["1h","s",[1,3],"Tasha draws a flow chart of a homeostasis loop and asks AI whether any of her arrows point the wrong way, then checks its feedback in the textbook.","Drawing processes as flow charts is a strong study move. Asking AI to check your own work, then verifying in OpenStax, is right on target."],
+  ["1i","s",[1],"Before a long drive home, Omar asks AI to turn his own notes on bone cells into ten spoken-style review questions.","He is using his own notes and AI is just making practice questions. Fine for studying."]
+ ]},
+ {id:2,name:"Homework Line",blurb:"Guided Practice, the Reading Guide and CircleIn.",sky:1,place:"The library, midday",icon:"pencil",items:[
+  ["2a","x",[2],"Marcus pastes his Guided Practice questions into AI and copies the answers into Blackboard.","Guided Practice is graded work. Using AI to answer it is presenting AI work as your own, which is an academic integrity violation."],
+  ["2b","s",[1,2],"Before starting Guided Practice, Ana asks AI to quiz her on bone cells. Then she closes AI and does the homework with her notes and OpenStax.","Studying first, then doing graded work on your own, is exactly the line. Nice."],
+  ["2c","x",[2],"Chris has AI fill in the OpenStax Reading Guide so he can collect the extra credit.","The Reading Guide is graded work, so no AI. Its answers come straight from the textbook and its content shows up on exams, so doing it yourself is also great exam prep."],
+  ["2d","x",[2],"Imani asks AI to write her CircleIn answer to a classmate's question about cartilage.","CircleIn posts are graded. Write the answer in your own words. You will learn more, and so will your classmate."],
+  ["2e","s",[1,2],"Rob makes his own CircleIn flashcards from his notes. Later, for private study, he asks AI to quiz him on the same topic.","His graded CircleIn work is his own, and the AI quizzing is just study time. Both are fine."],
+  ["2f","c",[2,5],"One Guided Practice set includes an optional AI activity, but the directions are not clear about whether AI can help with the other questions too.","When an assignment allows some AI use but the limits are unclear, ask your instructor before you use it. Assume the rest is you alone until you hear back."],
+  ["2g","x",[2],"A friend texts Nia a screenshot of AI-generated Guided Practice answers. She uses it to check hers before she submits.","Studying together is wonderful, but graded work is answered alone. Using someone else's AI answers is still using AI on graded work."],
+  ["2h","c",[2,5],"Kevin wants to run his lab report through an AI grammar tool. Nothing in the lab instructions mentions AI.","A lab report is graded work, and grammar tools can rewrite more than you expect. Ask your instructor first. The Writing Center is also a great place for grammar help."],
+  ["2i","s",[1],"Tia is stuck on why spongy bone is light but strong. She asks AI for an everyday comparison, then explains it back in her own words.","Asking AI to explain a concept another way, then teaching it back, is a tutor move. Just keep it out of the graded assignment itself."]
+ ]},
+ {id:3,name:"Test Zone",blurb:"Quizzes, exams and the questions on them.",sky:2,place:"Testing week, afternoon",icon:"clock",items:[
+  ["3a","x",[2],"During a Blackboard quiz, Taylor keeps an AI tab open just in case.","Using any outside source or device during a quiz or test is cheating. Close everything before you start."],
+  ["3b","x",[2],"Ben screenshots a quiz question and, after the quiz closes, pastes it into AI to see the answer.","Never paste quiz or exam questions into AI, even afterward. Instead, write down the topic that confused you and ask AI to explain that concept, or bring it to student hours."],
+  ["3c","s",[1],"The week before Exam 2, Ruth asks AI for 20 practice questions on Chapters 5, 6, 9 and 10.","Making your own practice test is smart exam prep. Check any answer that surprises you against OpenStax."],
+  ["3d","x",[2],"A message pops up in the class group chat: AI got all the Quiz 4 answers, want them?","Say no. Using shared quiz answers is cheating, no matter who or what produced them."],
+  ["3e","s",[1,2],"After an exam, Lena asks AI to explain action potentials again because that topic felt shaky. She describes what confused her, not the exam questions.","Learning from a tough exam is smart. She asks about the concept, not the questions, which keeps her on the right side of Rule 2."],
+  ["3f","x",[2],"Gia figures quizzes are low stakes because a few of the lowest scores get dropped, so she uses AI on one.","Dropped scores are a safety net for a rough week, not permission to use AI. A quiz is still graded work."],
+  ["3g","s",[1,3],"Eli asks AI to turn the topic list for Exam 3 into a study checklist, then checks the list against his syllabus and notes.","Turning a topic list into a plan is a good use. Checking it against the syllabus keeps it accurate."],
+  ["3h","x",[2],"Max asks AI to make a tiny cheat sheet he plans to hide near his keyboard during the exam.","Any outside source during a test is cheating, and the integrity risk is not worth it. Make that same sheet as a study tool, then put it away."],
+  ["3i","s",[1],"Before the final, Zoe asks AI to quiz her with a mix of questions from every chapter, since the final is mostly cumulative.","Mixed practice across chapters is excellent final prep."]
+ ]},
+ {id:4,name:"Privacy",blurb:"Personal info, classmates and health details.",sky:3,place:"Dorm room, sunset",icon:"lock",items:[
+  ["4a","x",[4],"Ava pastes her Blackboard grade report, with her name and student ID, into AI and asks why her grade is low.","Never paste your student ID, grades or name into AI. You can describe it generally, like: I scored lower than I wanted on my first exam. Better yet, talk with your instructor."],
+  ["4b","s",[4,1],"Noah asks AI for a study plan, saying only: I scored lower than I wanted on my first A&P exam, and I work 20 hours a week.","He shares what is useful without any identifying details. That is how to keep it private and still get help."],
+  ["4c","x",[4],"Mia pastes the study group chat, with classmates' names and phone numbers, into AI to plan a meeting time.","That is other people's personal information. Keep classmates' names and numbers out of AI. A shared poll works fine."],
+  ["4d","x",[4],"Liam pastes his own lab results from a recent doctor visit into AI to help him understand the endocrine chapter.","Health details are private. Study with textbook examples instead, and ask your own doctor about your own results."],
+  ["4e","s",[4,1],"Ella asks AI about a made-up case: a 50-year-old with a broken femur. How does a bone fracture heal?","A fictional case has no real person's information in it. That is a safe way to practice applying A&P."],
+  ["4f","x",[4],"Jay pastes his disability paperwork into AI so it can write his accommodation email to his instructor.","Keep medical and disability details out of AI. Disability Services handles accommodations, so register with them early. Accommodations are not retroactive."],
+  ["4g","x",[4],"Sofia finds a free AI study app that asks for her USC Upstate email password to sync her courses.","Never give your school password to an outside app. If something asks for it, contact the IT Help Desk at 864.503.5257."],
+  ["4h","x",[4],"Ray photographs a classmate's notes, with her name on the page, and uploads them to AI for a summary.","That is someone else's work and name. Ask the classmate first, and keep names out of AI either way."],
+  ["4i","s",[4],"Hana feels stressed before exams. She asks AI for general tips, without personal details, and also looks up Counseling Services.","General questions are fine, and reaching out to real people is even better. Counseling Services is at 864.503.5195, and you can call or text 988 any time."]
+ ]},
+ {id:5,name:"Truth Check",blurb:"AI says something about A&P. Is it right?",sky:4,place:"Study night, evening",icon:"glass",truth:true,items:[
+  ["5a","r",[3],"Where is simple squamous epithelium found, and why?","Simple squamous epithelium lines the air sacs (alveoli) of the lungs. Its single layer of flat cells lets gases diffuse across quickly.","AI is right. OpenStax 4.2 (Epithelial Tissue) describes simple squamous epithelium as thin and flat, found where diffusion and filtration happen, such as the alveoli.","4.2 Epithelial Tissue"],
+  ["5b","w",[3],"What do mitochondria do?","Mitochondria are where proteins are made. They are basically the cell's ribosomes.","AI is wrong. OpenStax 3.2 says ribosomes make proteins. Mitochondria carry out cellular respiration and make most of the cell's ATP.","3.2 The Cytoplasm and Cellular Organelles"],
+  ["5c","w",[3],"What happens to the filaments when a muscle contracts?","When a muscle contracts, the thick and thin filaments both get shorter.","AI is wrong. OpenStax 10.3 explains the sliding filament model: the filaments do not change length. They slide past each other, so the sarcomere shortens while the A band stays the same length.","10.3 Muscle Fiber Contraction and Relaxation"],
+  ["5d","r",[3],"What does calcium do in skeletal muscle contraction?","Calcium binds to troponin. This moves tropomyosin off the myosin-binding sites on actin, so cross-bridges can form.","AI is right. This matches OpenStax 10.3.","10.3 Muscle Fiber Contraction and Relaxation"],
+  ["5e","w",[3],"What is the resting membrane potential of a typical neuron?","A typical neuron rests at about +70 mV.","AI is wrong. OpenStax 12.4 gives a resting membrane potential of about -70 mV. The inside of the cell is negative compared with the outside.","12.4 The Action Potential"],
+  ["5f","w",[3],"Which bone cells build new bone matrix?","Osteoclasts build new bone matrix, and osteoblasts break it down.","AI is wrong, it swapped them. OpenStax 6.3 says osteoblasts build bone matrix and osteoclasts break bone down (resorption).","6.3 Bone Structure"],
+  ["5g","r",[3],"What does the vagus nerve do?","The vagus nerve is cranial nerve X. It carries parasympathetic signals to organs in the chest and abdomen.","AI is right. OpenStax 13.4 lists the vagus as cranial nerve X, and Chapter 15 covers its major parasympathetic role.","13.4 The Peripheral Nervous System"],
+  ["5h","w",[3],"Which division of the autonomic nervous system is rest and digest?","The sympathetic division is the rest and digest system.","AI is wrong. OpenStax 15.1 calls the sympathetic division fight or flight. The parasympathetic division is rest and digest.","15.1 Divisions of the Autonomic Nervous System"],
+  ["5i","w",[3],"Which photoreceptors detect color?","Rods detect color and give us our sharpest vision in bright light.","AI is wrong. OpenStax 14.1 says cones detect color and work best in bright light. Rods are very sensitive and work best in dim light.","14.1 Sensory Perception"],
+  ["5j","r",[3],"What is the most common type of cartilage?","Hyaline cartilage is the most common type of cartilage in the body.","AI is right. OpenStax 4.3 describes hyaline cartilage as the most common type, found in places such as the ends of long bones at joints.","4.3 Connective Tissue Supports and Protects"]
+ ]},
+ {id:6,name:"Other Classes",blurb:"Different syllabi, different rules, and disclosure.",sky:5,place:"Late night, planning ahead",icon:"door",items:[
+  ["6a","s",[5],"Kai's English syllabus says AI may be used for brainstorming if you disclose it. He brainstorms with AI and adds a note saying how he used it.","He followed that syllabus and disclosed his use. That is exactly Rule 5."],
+  ["6b","x",[5,2],"Because English allows AI for brainstorming, Kai figures BIO 243 Guided Practice must allow AI too.","Every class is different. In BIO 243, AI is not allowed on graded work unless the assignment says so."],
+  ["6c","c",[5],"Luis's chemistry syllabus says nothing about AI. He wants AI to check his lab calculations.","When the syllabus is silent, ask before you use it. A quick email to the instructor settles it."],
+  ["6d","x",[5],"A psychology instructor does not allow AI at all. Rena uses it for a paper outline anyway, since it is just an outline.","If the course does not allow AI, that includes outlines. Follow that syllabus."],
+  ["6e","s",[5],"A math instructor allows AI for practice problems but not for graded homework. Dev uses it only on practice sets.","He knows the line in that class and stays on the right side of it."],
+  ["6f","x",[5],"A history assignment allows AI for research ideas. Mo uses it that way but does not mention it anywhere.","If AI use is allowed, say how you used it. Leaving it out can still look like hiding it."],
+  ["6g","s",[5],"An instructor in another course says ask me first about AI. Tia emails to ask before using it on a project.","Asking first is the right move every time you are unsure."],
+  ["6h","c",[5],"Ari's instructors in two courses have different AI rules. Now he has a group project in a third class and is not sure which rules apply.","Rules do not carry over between classes. Check that course's syllabus, and ask the instructor if it is not clear."],
+  ["6i","c",[5],"A new AI feature shows up inside a course tool. Pat is not sure it is allowed for that class's discussion posts.","A feature being built in does not mean it is allowed. Ask the instructor before using it on graded posts."]
+ ]}
+];
+var ALL=[];LEVELS.forEach(function(L){L.items.forEach(function(it){ALL.push(it[0]);});});
+var VLABEL={s:"SMART",x:"SHADY",c:"CHECK FIRST",r:"AI is RIGHT",w:"AI is WRONG"};
+
+/* ---------- storage ---------- */
+var KEY="s243_smart_or_shady_v1";
+function blank(){return {levels:{},seen:{},misses:{1:0,2:0,3:0,4:0,5:0},asked:{1:0,2:0,3:0,4:0,5:0},best:0,sound:false};}
+function load(){try{var d=JSON.parse(localStorage.getItem(KEY)||"null");if(d&&d.levels){var b=blank();for(var k in b){if(!(k in d))d[k]=b[k];}return d;}}catch(e){}return blank();}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var S=load();
+
+/* ---------- helpers ---------- */
+function $(id){return document.getElementById(id);}
+function el(tag,attrs,html){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==="class")e.className=attrs[k];else e.setAttribute(k,attrs[k]);}if(html!=null)e.innerHTML=html;return e;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function say(t){var l=$("live");l.textContent="";setTimeout(function(){l.textContent=t;},40);}
+function toast(t){var x=$("toast");x.textContent=t;x.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(function(){x.classList.remove("on");},1500);}
+function starSvg(on,big){var f=on?"#c8a84b":"none";var s=on?"#9c7f2a":"currentColor";return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.5.8-4.8 4.5 1.2 6.5L12 17.2l-5.8 3.2 1.2-6.5L2.6 9.4l6.5-.8z" fill="'+f+'" stroke="'+s+'" stroke-opacity="'+(on?1:.35)+'" stroke-width="1.6" stroke-linejoin="round"/></svg>';}
+var ICONS={
+ book:'<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M4 6c3-1 6-1 10 1v15c-4-2-7-2-10-1z" fill="#fff"/><path d="M24 6c-3-1-6-1-10 1v15c4-2 7-2 10-1z" fill="#f2e3b3"/><path d="M14 7v15" stroke="#00693e" stroke-width="1.5"/></svg>',
+ pencil:'<svg viewBox="0 0 28 28" aria-hidden="true"><rect x="4" y="5" width="15" height="19" rx="2" fill="#fff"/><path d="M7 10h9M7 14h9M7 18h5" stroke="#00693e" stroke-width="1.6" stroke-linecap="round"/><path d="M17 20l7-9 2 1.6-7 9-2.6.9z" fill="#c8a84b"/></svg>',
+ clock:'<svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="15" r="9.5" fill="#fff"/><path d="M14 9v6l4 3" stroke="#00693e" stroke-width="2.2" stroke-linecap="round" fill="none"/><rect x="11" y="2.5" width="6" height="3" rx="1" fill="#c8a84b"/></svg>',
+ lock:'<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M9 13V9a5 5 0 0 1 10 0v4" stroke="#fff" stroke-width="2.6" fill="none"/><rect x="6" y="12.5" width="16" height="12" rx="3" fill="#c8a84b"/><circle cx="14" cy="18" r="2" fill="#00693e"/></svg>',
+ glass:'<svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="#e3f1ea" stroke="#fff" stroke-width="2.6"/><path d="M17 17l6.5 6.5" stroke="#c8a84b" stroke-width="3.4" stroke-linecap="round"/><path d="M9 12.5l2.2 2.2 4-4.4" stroke="#00693e" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+ door:'<svg viewBox="0 0 28 28" aria-hidden="true"><rect x="3" y="7" width="9" height="16" rx="1.5" fill="#fff"/><rect x="16" y="4" width="9" height="19" rx="1.5" fill="#c8a84b"/><path d="M5.5 11h4M5.5 14h4M18.5 8h4M18.5 11h4" stroke="#00693e" stroke-width="1.6" stroke-linecap="round"/></svg>'
+};
+
+/* ---------- sound (muted by default) ---------- */
+var AC=null;
+function tone(f,d,type,vol,delay){if(!S.sound)return;try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();var t=AC.currentTime+(delay||0);var o=AC.createOscillator(),g=AC.createGain();o.type=type||"square";o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(vol||.05,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d+.02);}catch(e){}}
+var SFX={good:function(){tone(660,.09);tone(880,.12,"square",.05,.08);},bad:function(){tone(220,.18,"sawtooth",.04);tone(160,.22,"sawtooth",.035,.12);},streak:function(){[523,659,784,1047].forEach(function(f,i){tone(f,.1,"square",.045,i*.07);});},click:function(){tone(440,.04,"square",.03);},win:function(){[392,523,659,784,659,784,1047].forEach(function(f,i){tone(f,.12,"triangle",.06,i*.09);});}};
+function paintSound(){var on=!!S.sound;$("sndBtn").setAttribute("aria-pressed",on?"true":"false");$("sndBtn").setAttribute("aria-label",on?"Sound effects on. Turn off":"Sound effects off. Turn on");$("sndLbl").textContent=on?"Sound on":"Sound off";
+ $("sndIco").innerHTML='<path d="M3 8h3l4-3.5v11L6 12H3z" fill="currentColor"/>'+(on?'<path d="M13 7c1.3 1.6 1.3 4.4 0 6M15.5 5c2.6 2.8 2.6 7.2 0 10" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/>':'<path d="M13 7.5l5 5M18 7.5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>');}
+$("sndBtn").addEventListener("click",function(){S.sound=!S.sound;save();paintSound();SFX.click();});
+
+/* ---------- pixel scene ---------- */
+var SKIES=[
+ {top:"#8fd0f2",bot:"#cdeefc",sun:"#fff2a8",wall:"#efe6cf",wall2:"#e3d7b8",lamp:false},
+ {top:"#5fb5e8",bot:"#a9dcf7",sun:"#fff7c2",wall:"#e9e6da",wall2:"#d9d4c2",lamp:false},
+ {top:"#f0b56a",bot:"#f8dca2",sun:"#fff0b0",wall:"#efe1c6",wall2:"#e0ceab",lamp:false},
+ {top:"#d9715a",bot:"#f2b07c",sun:"#ffd27a",wall:"#e8d3bd",wall2:"#d6bc9f",lamp:true},
+ {top:"#46407e",bot:"#8a6aa8",sun:"#f4e2a6",wall:"#d6cbbf",wall2:"#c3b6a8",lamp:true},
+ {top:"#141d3d",bot:"#2c3a6a",sun:"#f6efcf",wall:"#c7c0b5",wall2:"#b3aa9d",lamp:true}
+];
+// student sprite: left half (10 cols) mirrored to 20 cols
+var HALF=["......hhhh","....hhhhhh","...hhhhhhh","..hhhhhhhh","..hhhhhsss","..hhhsssss",".hhhssssss",".hhsssssss",".hhsssssss",".hhsssssss",".hhhssssss",".hh.ssssss","....Ssssss",".......SSS","...ggggggg","..gggggggg",".ggggggggg",".ggggggggg",".ggggggggg",".ggggggggg"];
+var STUDENT=HALF.map(function(r){return r+r.split("").reverse().join("");});
+STUDENT[14]=STUDENT[14].slice(0,8)+"wyyw"+STUDENT[14].slice(12);
+STUDENT[15]=STUDENT[15].slice(0,9)+"yy"+STUDENT[15].slice(11);
+var SPAL={h:"#2e1d14",s:"#c98d63",S:"#a96f48",g:"#00693e",w:"#f4f4f4",y:"#c8a84b",k:"#1b120c",m:"#7a2e2a",p:"#e2967a",b:"#f2e9e0"};
+var FACES={
+ neutral:[[6,8,"k"],[13,8,"k"],[9,11,"m"],[10,11,"m"],[5,10,"p"],[14,10,"p"]],
+ happy:[[5,8,"k"],[6,7,"k"],[7,8,"k"],[12,8,"k"],[13,7,"k"],[14,8,"k"],[8,10,"m"],[9,11,"m"],[10,11,"m"],[11,10,"m"],[4,9,"p"],[15,9,"p"]],
+ oops:[[6,7,"b"],[6,8,"k"],[13,7,"b"],[13,8,"k"],[5,6,"h"],[6,5,"h"],[14,6,"h"],[13,5,"h"],[9,11,"m"],[10,11,"m"],[9,12,"m"],[10,12,"m"]],
+ think:[[7,7,"k"],[14,7,"k"],[8,11,"m"],[9,11,"m"],[10,11,"m"],[16,9,"S"]]
+};
+var RFACES={
+ idle:["............","............","...##..##...","...##..##...","............","....####....","............"],
+ happy:["............","...#....#...","..#.#..#.#..","............","..#......#..","...######...","............"],
+ shady:["............","..#.#..#.#..","...#....#...","..#.#..#.#..","............","...######...","............"],
+ check:["..###..###..","....#....#..","...##...##..","...#....#...","............","...#....#...","............"],
+ blink:["............","............","............","...##..##...","............","....####....","............"]
+};
+function Scene(canvas){
+ var ctx=canvas.getContext("2d");ctx.imageSmoothingEnabled=false;
+ var W=192,H=108;
+ var st={sky:0,face:"neutral",robot:"idle",parts:[],t0:performance.now(),moodUntil:0,running:true,party:false,lastParty:0};
+ var books=[];var seed=7;function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+ var bcol=["#00693e","#c8a84b","#2f6f9f","#a8432e","#6b4f8a","#e0b04a","#2b8a6a","#d06a4a"];
+ for(var sh=0;sh<3;sh++){var x=157;while(x<184){var w=2+Math.floor(rnd()*3);var h=9+Math.floor(rnd()*4);if(x+w>185)break;books.push([x,28+sh*17-h,w,h,bcol[Math.floor(rnd()*bcol.length)]]);x+=w+(rnd()<.2?2:0);}}
+ var stars=[];for(var i=0;i<14;i++)stars.push([10+Math.floor(rnd()*44),10+Math.floor(rnd()*26),rnd()]);
+ function R(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));}
+ function sprite(rows,pal,ox,oy,sc){for(var y=0;y<rows.length;y++){var r=rows[y];for(var x=0;x<r.length;x++){var c=r[x];if(c!=="."&&pal[c]){R(ox+x*sc,oy+y*sc,sc,sc,pal[c]);}}}}
+ function cloud(x,y){var c="rgba(255,255,255,.92)";R(x,y,12,3,c);R(x+3,y-2,6,2,c);R(x+2,y+3,9,1,"rgba(255,255,255,.6)");}
+ function mix(a,b,f){var A=hex(a),B=hex(b);return "rgb("+Math.round(A[0]+(B[0]-A[0])*f)+","+Math.round(A[1]+(B[1]-A[1])*f)+","+Math.round(A[2]+(B[2]-A[2])*f)+")";}
+ function hex(h){h=h.replace("#","");return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+ function draw(now){
+  var t=(now-st.t0)/1000;var sk=SKIES[st.sky]||SKIES[0];var night=st.sky>=4;
+  /* wall with subtle pattern */
+  R(0,0,W,H,sk.wall);
+  for(var y=2;y<70;y+=5)for(var x=((y/5)|0)%2?1:4;x<W;x+=7)R(x,y,1,1,sk.wall2);
+  R(0,70,W,6,sk.wall2);R(0,70,W,1,"rgba(0,0,0,.08)");
+  /* window */
+  var wx=8,wy=8,ww=48,wh=36;
+  R(wx-3,wy-3,ww+6,wh+6,"#5b3f27");R(wx-2,wy-2,ww+4,wh+4,"#7b5636");
+  for(var yy=0;yy<wh;yy++){R(wx,wy+yy,ww,1,mix(sk.top,sk.bot,yy/wh));}
+  ctx.save();ctx.beginPath();ctx.rect(wx,wy,ww,wh);ctx.clip();
+  if(night){stars.forEach(function(s){if((Math.sin(t*2+s[2]*9)+1)>.6)R(s[0],s[1],1,1,"#ffffff");});}
+  var sx=wx+34,sy=wy+(night?7:5+st.sky*3);
+  R(sx-2,sy-4,5,9,sk.sun);R(sx-4,sy-2,9,5,sk.sun);R(sx-3,sy-3,7,7,sk.sun);
+  if(night){R(sx,sy-3,4,6,mix(sk.top,sk.bot,.2));}
+  if(!night){var cx=wx-14+((t*2.4)%(ww+28));cloud(cx,wy+11);cloud(((cx+26-wx)%(ww+28))+wx-14,wy+20);}
+  for(var hx=0;hx<ww;hx++){var hh=Math.round(4+2.5*Math.sin(hx/6+1));R(wx+hx,wy+wh-8-hh,1,hh+8,night?"#183026":"#3f8a5a");}
+  for(var hx2=0;hx2<ww;hx2++){var h2=Math.round(2+2*Math.sin(hx2/4));R(wx+hx2,wy+wh-4-h2,1,h2+4,night?"#12261d":"#2f7a4b");}
+  R(wx+6,wy+wh-17,16,10,night?"#4b3b33":"#b2654a");R(wx+5,wy+wh-19,18,2,night?"#3a2d27":"#8c4d38");R(wx+12,wy+wh-23,4,4,night?"#3a2d27":"#8c4d38");
+  R(wx+9,wy+wh-14,2,3,night?"#ffd76a":"#e9eef2");R(wx+17,wy+wh-14,2,3,night?"#ffd76a":"#e9eef2");R(wx+13,wy+wh-12,2,5,"#5b3f27");
+  ctx.restore();
+  R(wx+ww/2-1,wy,2,wh,"#7b5636");R(wx,wy+wh/2-1,ww,2,"#7b5636");
+  R(wx-5,wy+wh+3,ww+10,3,"#5b3f27");R(wx-5,wy+wh+3,ww+10,1,"#8a6440");
+  /* poster: bone diagram */
+  R(64,6,26,22,"#c8a84b");R(65,7,24,20,"#fbf6e6");
+  var bx=69,by=11;R(bx+3,by+3,10,3,"#e2d3ad");R(bx,by,5,4,"#e2d3ad");R(bx,by+5,5,4,"#e2d3ad");R(bx+11,by,5,4,"#e2d3ad");R(bx+11,by+5,5,4,"#e2d3ad");R(bx+3,by+5,10,1,"#c4b28a");
+  R(67,22,18,1,"#00693e");R(67,24,11,1,"#9aa79f");R(85,8,3,3,"#b3261e");
+  /* bookshelf */
+  R(153,8,36,62,"#6a4628");R(155,10,32,58,"#4a301b");
+  for(var s2=0;s2<3;s2++)R(155,28+s2*17,32,2,"#7d5531");
+  books.forEach(function(b){R(b[0],b[1],b[2],b[3],b[4]);R(b[0],b[1]+2,b[2],1,"rgba(255,255,255,.28)");});
+  R(166,1,9,7,"#a8432e");R(166,1,9,1,"#c45a3f");R(163,-1,5,3,"#3f8a5a");R(171,-1,6,3,"#2f7a4b");R(168,-2,3,3,"#3f8a5a");
+  /* student, 2x pixels */
+  var bob=Math.round(Math.sin(t*1.6)*.6);var ox=62,oy=34+bob;
+  var face=(now<st.moodUntil||st.face==="think"||st.face==="neutral")?st.face:"neutral";
+  sprite(STUDENT,SPAL,ox,oy,2);
+  var F=FACES[face]||FACES.neutral;F.forEach(function(p){R(ox+p[0]*2,oy+p[1]*2,2,2,SPAL[p[2]]);});
+  if(face==="neutral"&&(t%4)<.14){R(ox+12,oy+16,2,2,SPAL.s);R(ox+26,oy+16,2,2,SPAL.s);R(ox+12,oy+17,2,1,SPAL.S);R(ox+26,oy+17,2,1,SPAL.S);}
+  /* desk */
+  R(0,76,W,9,"#b07a4c");R(0,76,W,1,"#c99263");R(0,84,W,1,"#6a4228");
+  R(0,85,W,23,"#8a5a35");
+  [[14,90,44,13],[134,90,44,13]].forEach(function(d){R(d[0],d[1],d[2],d[3],"#7b4f2e");R(d[0]+1,d[1]+1,d[2]-2,d[3]-2,"#94623b");R(d[0]+d[2]/2-4,d[1]+5,8,2,"#c8a84b");});
+  for(var gx=4;gx<W;gx+=19)R(gx,79,9,1,"#a06c40");
+  /* hands */
+  R(60,72,6,4,SPAL.s);R(98,72,6,4,SPAL.s);R(60,74,6,2,"#00693e");R(98,74,6,2,"#00693e");
+  /* laptop back */
+  R(66,60,32,18,"#aeb7bf");R(67,61,30,16,"#d5dbe0");R(67,61,30,1,"#eef2f5");R(62,77,40,3,"#7b858f");R(62,77,40,1,"#9aa4ad");
+  R(79,66,6,6,"#c8a84b");R(80,67,4,4,"#e7cf7e");R(81,68,2,2,"#00693e");
+  if(sk.lamp){ctx.fillStyle="rgba(170,230,255,.10)";ctx.fillRect(66,46+bob,32,14);}
+  /* textbook stack */
+  R(112,71,28,5,"#2f6f9f");R(139,71,1,5,"#f3eee0");R(112,71,28,1,"#4a8ac0");
+  R(114,66,25,5,"#00693e");R(114,66,25,1,"#1f8a59");R(138,66,1,5,"#f3eee0");R(118,68,8,1,"#c8a84b");
+  R(116,62,21,4,"#c8a84b");R(116,62,21,1,"#e0c76d");R(136,62,1,4,"#f3eee0");
+  /* mug and steam */
+  R(28,67,10,10,"#f2f2f2");R(38,69,3,5,"#f2f2f2");R(39,70,1,3,"#b07a4c");R(28,67,10,1,"#d9d9d9");R(29,71,8,2,"#00693e");R(32,71,2,2,"#c8a84b");
+  var sp=(t*6)%12;R(31,65-sp/2,1,2,"rgba(255,255,255,.75)");R(35,63-((sp+5)%12)/2,1,2,"rgba(255,255,255,.6)");
+  /* lamp */
+  if(sk.lamp){R(9,50,2,26,"#3a3a3a");R(4,74,12,3,"#3a3a3a");R(2,46,14,6,"#c8a84b");R(2,46,14,1,"#e0c76d");ctx.fillStyle="rgba(255,226,140,.16)";ctx.beginPath();ctx.moveTo(3,52);ctx.lineTo(15,52);ctx.lineTo(44,76);ctx.lineTo(-12,76);ctx.closePath();ctx.fill();}
+  /* robot buddy, 2x pixels */
+  var rx=110,ry=12+Math.round(Math.sin(t*2.2)*2);
+  function P(x,y,w,h,c){R(rx+x*2,ry+y*2,w*2,h*2,c);}
+  P(7,-3,2,3,"#7d8a84");var bl=(Math.sin(t*5)>0);P(6,-5,4,2,bl?"#ffd36b":"#c8a84b");
+  P(0,0,16,11,"#1d2b25");P(1,-1,14,1,"#1d2b25");P(1,11,14,1,"#1d2b25");
+  P(1,0,14,11,"#e3ebe6");P(1,0,14,1,"#ffffff");P(1,9,14,2,"#c2cec8");
+  P(2,1,12,7,"#10241b");
+  var mode=(now<st.moodUntil)?st.robot:"idle";if(mode==="idle"&&(t%3.4)<.15)mode="blink";
+  var fc=mode==="shady"?"#ff7a6e":mode==="check"?"#ffd36b":"#7dffb2";
+  var fr=RFACES[mode]||RFACES.idle;
+  for(var y2=0;y2<7;y2++)for(var x2=0;x2<12;x2++)if(fr[y2][x2]==="#")P(2+x2,1+y2,1,1,fc);
+  P(-2,4,2,4,"#00693e");P(16,4,2,4,"#00693e");P(-2,4,2,1,"#1f8a59");P(16,4,2,1,"#1f8a59");
+  P(5,12,6,4,"#00693e");P(5,12,6,1,"#1f8a59");P(7,13,2,2,"#c8a84b");
+  var fl=(Math.sin(t*14)>0)?3:2;P(6,16,4,fl,"#ffd36b");P(7,16+fl,2,1,"#ff9b4a");
+  /* particles */
+  if(st.party&&now-st.lastParty>900){st.lastParty=now;burst(26,["#c8a84b","#7dffb2","#ffffff","#00693e","#ff9b4a"]);}
+  st.parts=st.parts.filter(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.07;p.life--;if(p.life>0){R(p.x,p.y,p.s,p.s,p.c);}return p.life>0;});
+ }
+ function burst(n,cols){for(var i=0;i<n;i++)st.parts.push({x:124+Math.random()*12,y:22,vx:(Math.random()-.5)*3.4,vy:-1-Math.random()*2.4,life:22+Math.random()*16,s:Math.random()<.35?2:1,c:cols[i%cols.length]});}
+ var raf=0,last=0;var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+ function loop(now){raf=0;if(!st.running)return;if(now-last>60){last=now;draw(now);}raf=requestAnimationFrame(loop);}
+ return {
+  start:function(){st.running=true;if(reduce){draw(st.t0+500);return;}if(!raf)raf=requestAnimationFrame(loop);},
+  stop:function(){st.running=false;if(raf){cancelAnimationFrame(raf);raf=0;}},
+  set:function(o){for(var k in o)st[k]=o[k];if(reduce)draw(st.t0+500);},
+  mood:function(face,robot,ms){st.face=face;st.robot=robot;st.moodUntil=performance.now()+(ms||2600);if(reduce)draw(performance.now());},
+  burst:function(n,cols){if(!reduce)burst(n,cols);}
+ };
+}
+var titleScene=Scene($("titleScene").querySelector("canvas"));
+var playScene=Scene($("playScene").querySelector("canvas"));
+var finalScene=Scene($("finalScene").querySelector("canvas"));finalScene.stop();
+
+/* ---------- rules lists ---------- */
+function fillRules(id){var o=$(id);o.innerHTML="";for(var i=1;i<=5;i++){o.appendChild(el("li",null,'<span class="rnum">'+i+'</span><div><b>'+esc(RULES[i][0])+'</b><span>'+esc(RULES[i][1])+'</span></div>'));}}
+fillRules("rulesA");fillRules("rulesB");
+var dlg=$("rulesDlg");
+$("rulesBtn").addEventListener("click",function(){if(dlg.showModal){dlg.showModal();}else{dlg.setAttribute("open","");}});
+$("dlgClose").addEventListener("click",function(){if(dlg.close)dlg.close();else dlg.removeAttribute("open");});
+
+/* ---------- screens ---------- */
+var current="scTitle";
+function show(id,focusId){["scTitle","scMap","scPlay","scEnd","scFinal"].forEach(function(s){$(s).hidden=(s!==id);});current=id;
+ if(id==="scMap")paintMap();
+ if(id==="scTitle"){titleScene.start();}else titleScene.stop();
+ if(id==="scPlay")playScene.start();else playScene.stop();
+ if(id==="scFinal")finalScene.start();else finalScene.stop();
+ window.scrollTo(0,0);if(focusId){var f=$(focusId);if(f)setTimeout(function(){try{f.focus({preventScroll:true});}catch(e){f.focus();}},30);}}
+
+function levelStars(id){var l=S.levels[id];return l?l.stars:0;}
+function unlocked(i){return i===0||!!S.levels[LEVELS[i-1].id];}
+function totals(){var stars=0,best=0,c=0,n=0;LEVELS.forEach(function(L){var l=S.levels[L.id];if(l){stars+=l.stars;best+=l.best;c+=l.bestCorrect;n+=L.items.length;}});return {stars:stars,best:best,c:c,n:n};}
+function paintTitle(){var t=totals();$("titleBest").textContent=t.n?("Best total: "+t.best+" points, "+t.stars+" stars"):"Six levels, "+ALL.length+" situations";
+ $("startBtn").innerHTML=(t.n?"Continue":"Start playing")+' <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M6 3l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';}
+function paintMap(){
+ var host=$("nodes");host.innerHTML="";var t=totals();var nextFound=false;
+ var cols=host.clientWidth>=660?3:2;
+ LEVELS.forEach(function(L,i){
+  var open=unlocked(i);var l=S.levels[L.id];var seen=L.items.filter(function(it){return S.seen[it[0]];}).length;
+  var b=el("button",{type:"button","class":"node"+(l?" done":"")});
+  var isNext=open&&!l&&!nextFound;if(isNext){b.classList.add("next");nextFound=true;}
+  if(!open){b.disabled=true;}
+  var row=Math.floor(i/cols),col=i%cols;if(row%2)col=cols-1-col;b.style.gridRow=String(row+1);b.style.gridColumn=String(col+1);
+  var st="";for(var k=0;k<3;k++)st+=starSvg(l&&l.stars>k);
+  b.innerHTML=(isNext?'<span class="play" aria-hidden="true">PLAY</span>':'')+'<span class="medal" aria-hidden="true">'+ICONS[L.icon].replace("<svg ",'<svg class="ico" ')+'<span class="num">'+L.id+'</span>'+(open?'':'<span class="lk"><svg viewBox="0 0 16 16"><path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="3.5" y="7" width="9" height="7" rx="1.5" fill="currentColor"/></svg></span>')+'</span><span class="nm">'+esc(L.name)+'</span><span class="stars" aria-hidden="true">'+st+'</span><span class="seen">'+(open?seen+" of "+L.items.length+" seen":"Locked")+'</span>';
+  b.setAttribute("aria-label","Level "+L.id+", "+L.name+". "+L.blurb+" "+(open?(l?(l.stars+" of 3 stars."):"Not played yet."):"Locked. Finish the level before it."));
+  b.addEventListener("click",function(){startLevel(i);});
+  host.appendChild(b);
+ });
+ $("mStars").textContent=t.stars;$("mBest").textContent=t.best;$("mTotal").textContent=ALL.length;$("mSeen").textContent=ALL.filter(function(id){return S.seen[id];}).length;
+ $("rankBtn").disabled=!t.n;
+ requestAnimationFrame(drawRoad);
+}
+function drawRoad(){
+ var wrap=document.querySelector(".mapwrap"),svg=$("road");if(!wrap||$("scMap").hidden)return;
+ var wr=wrap.getBoundingClientRect();var W=wr.width,H=wr.height;svg.setAttribute("width",W);svg.setAttribute("height",H);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+ var pts=[].map.call(document.querySelectorAll("#nodes .medal"),function(m){var r=m.getBoundingClientRect();return [r.left-wr.left+r.width/2,r.top-wr.top+r.height/2];});
+ if(pts.length<2){svg.innerHTML="";return;}
+ var d="M"+pts[0][0]+" "+pts[0][1];
+ for(var i=1;i<pts.length;i++){var a=pts[i-1],b=pts[i];
+  if(Math.abs(a[1]-b[1])<4){d+=" C"+(a[0]+(b[0]-a[0])/3)+" "+(a[1]-26)+" "+(a[0]+2*(b[0]-a[0])/3)+" "+(b[1]+26)+" "+b[0]+" "+b[1];}
+  else{var bend=a[0]>W/2?1:-1;var room=bend>0?(W-a[0]-12):(a[0]-12);var ox=Math.min(room,Math.max(40,W*0.2))*bend;d+=" C"+(a[0]+ox)+" "+(a[1]+(b[1]-a[1])*0.15)+" "+(b[0]+ox)+" "+(b[1]-(b[1]-a[1])*0.15)+" "+b[0]+" "+b[1];}}
+ var done=0;LEVELS.forEach(function(L){if(S.levels[L.id])done++;});
+ svg.innerHTML='<path d="'+d+'" fill="none" stroke="rgba(0,0,0,.08)" stroke-width="26" stroke-linecap="round" transform="translate(0 4)"/><path d="'+d+'" fill="none" stroke="#e9dcb4" stroke-width="22" stroke-linecap="round"/><path d="'+d+'" fill="none" stroke="#f7efd8" stroke-width="16" stroke-linecap="round"/><path d="'+d+'" fill="none" stroke="#c8a84b" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>';
+}
+window.addEventListener("resize",function(){if(current==="scMap"){clearTimeout(drawRoad._t);drawRoad._t=setTimeout(paintMap,120);}});
+$("startBtn").addEventListener("click",function(){SFX.click();paintMap();show("scMap","mTitle");});
+$("resetBtn").addEventListener("click",function(){if(confirm("Reset all your stars, scores and progress for this game?")){var snd=S.sound;S=blank();S.sound=snd;save();paintMap();toast("Progress reset");}});
+$("rankBtn").addEventListener("click",function(){showFinal();});
+
+/* ---------- play ---------- */
+var G=null;
+function startLevel(i){
+ var L=LEVELS[i];
+ G={li:i,L:L,order:shuffle(L.items),idx:0,score:0,streak:0,bestStreak:0,correct:0,misses:{1:0,2:0,3:0,4:0,5:0},answered:false};
+ $("pLvNum").textContent="Level "+L.id+" of 6";$("pLvName").textContent=L.name;
+ $("sceneTag").innerHTML="<i></i>"+esc(L.place);
+ playScene.set({sky:L.sky,face:"neutral",robot:"idle"});
+ show("scPlay","pLevel");renderItem();say("Level "+L.id+", "+L.name+". "+L.blurb);
+}
+function hud(){$("pCount").textContent=(G.idx+1)+" / "+G.order.length;var sEl=$("pStreak");sEl.querySelector("span").textContent=G.streak;sEl.classList.toggle("hot",G.streak>=3);$("pScore").querySelector("span").textContent=G.score;$("pBar").style.width=(100*G.idx/G.order.length)+"%";}
+function renderItem(){
+ G.answered=false;hud();var it=G.order[G.idx];var L=G.L;
+ var host=$("cardHost");host.innerHTML="";
+ var c=el("div",{"class":"card",id:"card",role:"group","aria-roledescription":"situation card","aria-label":"Situation "+(G.idx+1)+" of "+G.order.length});
+ if(L.truth){
+  c.innerHTML='<div class="who"><span class="dot"></span>A student asks AI</div><p class="sit">'+esc(it[3])+'</p><div class="aibox"><div class="al"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="1" y="2" width="12" height="9" rx="2" fill="currentColor"/><rect x="3.5" y="5" width="2" height="2" fill="#fff"/><rect x="8.5" y="5" width="2" height="2" fill="#fff"/></svg>Sample AI answer</div><p>'+esc(it[4])+'</p></div><p class="ask">Is the AI right? Picture checking it against OpenStax.</p><span class="stamp l" aria-hidden="true">WRONG</span><span class="stamp r" aria-hidden="true">RIGHT</span>';
+ }else{
+  c.innerHTML='<div class="who"><span class="dot"></span>'+esc(L.name)+'</div><p class="sit">'+esc(it[3])+'</p><span class="stamp l" aria-hidden="true">SHADY</span><span class="stamp r" aria-hidden="true">SMART</span>';
+ }
+ host.appendChild(c);
+ var a=$("actions");a.innerHTML="";
+ var b=el("div",{"class":"btns"+(L.truth?" two":"")});
+ if(L.truth){
+  b.appendChild(vbtn("w","shady","AI is WRONG","1"));b.appendChild(vbtn("r","smart","AI is RIGHT","2"));
+ }else{
+  b.appendChild(vbtn("x","shady","SHADY","1"));b.appendChild(vbtn("c","check","CHECK FIRST","2"));b.appendChild(vbtn("s","smart","SMART","3"));
+ }
+ a.appendChild(b);
+ a.appendChild(el("p",{"class":"hint"},L.truth?"Swipe the card right for RIGHT, left for WRONG, or tap a button.":"Swipe the card right for SMART, left for SHADY, or tap a button."));
+ playScene.set({face:"think",robot:"idle"});
+ attachSwipe(c);
+}
+function vbtn(v,cls,label,key){var b=el("button",{type:"button","class":"vb "+cls,"data-v":v},label+'<small><span class="k">key '+key+'</span></small>');b.addEventListener("click",function(){answer(v);});return b;}
+function attachSwipe(c){
+ var sx=0,sy=0,dx=0,dragging=false,id=null;var sl=c.querySelector(".stamp.l"),sr=c.querySelector(".stamp.r");
+ c.addEventListener("pointerdown",function(e){if(G.answered||e.button>0)return;dragging=true;id=e.pointerId;sx=e.clientX;sy=e.clientY;dx=0;c.classList.remove("anim");});
+ c.addEventListener("pointermove",function(e){if(!dragging||e.pointerId!==id)return;dx=e.clientX-sx;var dy=e.clientY-sy;if(Math.abs(dy)>Math.abs(dx)*1.2&&Math.abs(dx)<12)return;if(Math.abs(dx)>8){try{c.setPointerCapture(id);}catch(_){}}
+  c.style.transform="translateX("+dx+"px) rotate("+(dx/22)+"deg)";var p=Math.min(1,Math.abs(dx)/90);sl.style.opacity=dx<0?p:0;sr.style.opacity=dx>0?p:0;});
+ function end(){if(!dragging)return;dragging=false;c.classList.add("anim");
+  if(Math.abs(dx)>90){var right=dx>0;c.style.transform="translateX("+(right?1:-1)*600+"px) rotate("+(right?20:-20)+"deg)";c.style.opacity="0";var v=G.L.truth?(right?"r":"w"):(right?"s":"x");setTimeout(function(){answer(v);},180);}
+  else{c.style.transform="";sl.style.opacity=0;sr.style.opacity=0;}}
+ c.addEventListener("pointerup",end);c.addEventListener("pointercancel",end);
+}
+function answer(v){
+ if(!G||G.answered)return;G.answered=true;var it=G.order[G.idx];var L=G.L;var right=(v===it[1]);var rules=it[2];
+ S.seen[it[0]]=1;rules.forEach(function(r){S.asked[r]=(S.asked[r]||0)+1;});
+ if(right){G.correct++;G.streak++;G.bestStreak=Math.max(G.bestStreak,G.streak);var pts=100+Math.min(100,(G.streak-1)*20);G.score+=pts;
+  playScene.mood("happy","happy",3000);playScene.burst(18,["#c8a84b","#7dffb2","#ffffff","#00693e"]);
+  if(G.streak===3||G.streak===5||G.streak===8){SFX.streak();playScene.burst(30,["#ffd36b","#ff9b4a","#ffffff"]);toast(G.streak+" in a row! Streak bonus");}else SFX.good();
+ }else{G.streak=0;rules.forEach(function(r){G.misses[r]++;S.misses[r]=(S.misses[r]||0)+1;});playScene.mood("oops",it[1]==="c"?"check":"shady",3000);SFX.bad();}
+ save();hud();
+ var bub=$("bubble");bub.textContent=right?pick(["Nice!","Smart call!","Yes!","Got it!"]):(it[1]==="c"?"Ask first!":it[1]==="r"?"It was right!":pick(["Uh oh!","Careful!","Hmm..."]));bub.className="bubble on "+(right?"good":(it[1]==="c"?"chk":"bad"));clearTimeout(bub._t);bub._t=setTimeout(function(){bub.className="bubble";},2600);
+ var why=L.truth?it[5]:it[4];
+ var host=$("cardHost");host.innerHTML="";
+ var fb=el("div",{"class":"fb "+(right?"good":"miss"),id:"fb"});
+ var ico=right?'<svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="#1b7a43"/><path d="M7.5 13.5l3.6 3.6 7.4-8" stroke="#fff" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>':'<svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="#b3261e"/><path d="M9 9l8 8M17 9l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg>';
+ var head=right?pick(["Nice call!","Exactly right.","You got it.","Spot on."]):pick(["Not quite.","Good try.","Close, but no."]);
+ var html='<h3 tabindex="-1" id="fbH">'+ico+head+'</h3><p class="ans">Answer: <b>'+VLABEL[it[1]]+'</b>'+(right?"":" (you chose "+VLABEL[v]+")")+'</p><p class="why">'+esc(why)+'</p>';
+ rules.forEach(function(r){html+='<div class="rtag"><span class="rnum">'+r+'</span><div><b>Rule '+r+': '+esc(RULES[r][0])+'</b></div></div>';});
+ if(L.truth)html+='<div class="src"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3c2-.7 4-.7 6 .6v10c-2-1.3-4-1.3-6-.6zM14 3c-2-.7-4-.7-6 .6v10c2-1.3 4-1.3 6-.6z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Check it: OpenStax Anatomy and Physiology, section '+esc(it[6])+'</div>';
+ fb.innerHTML=html;host.appendChild(fb);
+ var a=$("actions");a.innerHTML="";var last=G.idx===G.order.length-1;
+ var nb=el("button",{type:"button","class":"cta next",id:"nextBtn"},(last?"Finish level":"Next situation")+' <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M6 3l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+ nb.addEventListener("click",next);a.appendChild(nb);
+ say((right?"Correct. ":"Not quite. ")+"The answer is "+VLABEL[it[1]]+". "+why);
+ setTimeout(function(){try{nb.focus({preventScroll:true});}catch(e){nb.focus();}},30);
+ if(window.innerHeight<520||window.innerWidth<640){var top=$("cardHost").getBoundingClientRect().top+window.scrollY-60;window.scrollTo({top:Math.max(0,top),behavior:"smooth"});}
+}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function next(){if(!G)return;SFX.click();if(G.idx<G.order.length-1){G.idx++;renderItem();var c=$("card");if(c){try{c.focus({preventScroll:true});}catch(e){}}var t=$("cardHost").getBoundingClientRect().top;if(t<0||t>window.innerHeight*0.6){window.scrollTo({top:Math.max(0,$("cardHost").getBoundingClientRect().top+window.scrollY-(window.innerWidth>=640?70:280)),behavior:"smooth"});}}else finishLevel();}
+
+/* ---------- level end ---------- */
+function starsFor(c,n){var p=c/n;return p>=.9?3:p>=.7?2:p>=.5?1:0;}
+function finishLevel(){
+ var L=G.L,n=G.order.length;var stars=starsFor(G.correct,n);var prev=S.levels[L.id];
+ var rec={stars:Math.max(stars,prev?prev.stars:0),best:Math.max(G.score,prev?prev.best:0),bestCorrect:Math.max(G.correct,prev?prev.bestCorrect:0),plays:(prev?prev.plays:0)+1};
+ S.levels[L.id]=rec;var t=totals();S.best=Math.max(S.best||0,t.best);save();
+ $("eKick").textContent="Level "+L.id+" complete: "+L.name;
+ $("eTitle").textContent=stars===3?"Outstanding!":stars===2?"Great work!":stars===1?"Good start!":"Keep practicing!";
+ var sh="";for(var k=0;k<3;k++)sh+=starSvg(k<stars);$("eStars").innerHTML=sh;
+ $("eMsg").textContent=stars===3?"You know where the lines are. That will protect your grade and your learning.":stars>=1?"Read the rules below, then replay to earn more stars.":"These are tricky. Read the explanations below and give it another go.";
+ $("eCorrect").textContent=G.correct+"/"+n;$("eBestStreak").textContent=G.bestStreak;$("eScore").textContent=G.score;
+ recap($("eRecap"),G.misses,$("eRecapNote"),"this level");
+ var last=G.li===LEVELS.length-1;$("eNext").textContent=last?"See my final rank":"Next level";
+ if(stars>=2){SFX.win();}
+ show("scEnd","eTitle");say("Level complete. "+G.correct+" of "+n+" correct. "+stars+" stars.");
+}
+function recap(list,misses,note,scope){
+ list.innerHTML="";var arr=[1,2,3,4,5].map(function(r){return [r,misses[r]||0];}).filter(function(x){return x[1]>0;}).sort(function(a,b){return b[1]-a[1];});
+ if(!arr.length){note.textContent="You did not miss a single rule in "+scope+". Here is a quick reminder of all five anyway.";arr=[[1,0],[2,0],[3,0],[4,0],[5,0]];}
+ else note.textContent="The rules behind the situations you missed in "+scope+", most missed first.";
+ var max=Math.max.apply(null,arr.map(function(x){return x[1];}))||1;
+ arr.slice(0,5).forEach(function(x){var r=x[0];var li=el("li",null,'<div class="top"><span class="rnum">'+r+'</span><b>'+esc(RULES[r][0])+'</b></div>'+(x[1]?'<div class="bar2" aria-hidden="true"><i style="width:'+(100*x[1]/max)+'%"></i></div><p class="tip"><b>Missed '+x[1]+(x[1]===1?" time":" times")+'.</b> '+esc(TIPS[r])+'</p>':'<p class="tip">'+esc(TIPS[r])+'</p>'));list.appendChild(li);});
+}
+$("eNext").addEventListener("click",function(){if(G.li<LEVELS.length-1)startLevel(G.li+1);else showFinal();});
+$("eRetry").addEventListener("click",function(){startLevel(G.li);});
+$("eMap").addEventListener("click",function(){paintMap();show("scMap","mTitle");});
+
+/* ---------- final ---------- */
+var RANKS=[[95,"AI Ace","You use AI like a pro: as a tutor, checked against OpenStax, privately, and by each syllabus.","#c8a84b"],[85,"Integrity Pro","You know the lines and you keep to them. A couple of tricky spots left to sharpen.","#00693e"],[70,"Smart Studier","Solid instincts. Review the rules you missed most and replay for the top rank.","#2f6f9f"],[50,"Careful Learner","You are getting there. The recap below shows exactly where to focus.","#a8432e"],[0,"AI Rookie","Everyone starts somewhere. Read the five rules, then replay a level or two.","#6b4f8a"]];
+function showFinal(){
+ var t=totals();var acc=t.n?Math.round(100*t.c/t.n):0;var R=RANKS.find(function(r){return acc>=r[0];});
+ var played=LEVELS.filter(function(L){return S.levels[L.id];}).length;
+ $("fRank").textContent=R[1];$("fRankMsg").textContent=R[2]+(played<6?" (Based on "+played+" of 6 levels so far.)":"");
+ $("fAcc").textContent=acc+"%";$("fStars").textContent=t.stars+"/18";$("fTotal").textContent=t.best;
+ $("fBadge").innerHTML='<path d="M48 4l10 8 13-1 4 12 11 7-4 12 4 12-11 7-4 12-13-1-10 8-10-8-13 1-4-12-11-7 4-12-4-12 11-7 4-12 13 1z" fill="'+R[3]+'"/><circle cx="48" cy="48" r="27" fill="#fff"/><circle cx="48" cy="48" r="23" fill="none" stroke="'+R[3]+'" stroke-width="3"/><path d="M48 30l5 11 12 1.5-9 8 2.5 12L48 56.5 37.5 62.5 40 50.5l-9-8 12-1.5z" fill="'+R[3]+'"/>';
+ recap($("fRecap"),S.misses,$("fRecapNote"),"all your play so far");
+ finalScene.set({sky:5,face:"happy",robot:"happy",moodUntil:1e15,party:acc>=50});
+ SFX.win();show("scFinal","fTitle");say("Your rank: "+R[1]+". Accuracy "+acc+" percent.");
+}
+$("fMap").addEventListener("click",function(){paintMap();show("scMap","mTitle");});
+$("fAgain").addEventListener("click",function(){startLevel(0);});
+
+/* ---------- keyboard ---------- */
+document.addEventListener("keydown",function(e){
+ if(current!=="scPlay"||!G||e.altKey||e.ctrlKey||e.metaKey)return;if(dlg.open)return;
+ var t=e.target;if(t&&(t.tagName==="INPUT"||t.tagName==="TEXTAREA"))return;
+ if(!G.answered){var L=G.L,v=null;
+  if(L.truth){if(e.key==="1"||e.key==="ArrowLeft")v="w";else if(e.key==="2"||e.key==="ArrowRight")v="r";}
+  else{if(e.key==="1"||e.key==="ArrowLeft")v="x";else if(e.key==="2"||e.key==="ArrowUp")v="c";else if(e.key==="3"||e.key==="ArrowRight")v="s";}
+  if(v){e.preventDefault();answer(v);}
+ }
+});
+document.addEventListener("visibilitychange",function(){if(document.hidden){titleScene.stop();playScene.stop();}else{if(current==="scTitle")titleScene.start();if(current==="scPlay")playScene.start();if(current==="scFinal")finalScene.start();}});
+
+paintSound();paintTitle();titleScene.set({sky:0,face:"happy",robot:"happy",moodUntil:1e15});titleScene.start();
+window.__SOS={levels:LEVELS,state:function(){return S;}};
+})();
+</script>
+</body>
+</html>

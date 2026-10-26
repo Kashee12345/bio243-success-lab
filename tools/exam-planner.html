@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00693e">
+<title>Exam Planner · BIO 243 Success Lab</title>
+<meta name="description" content="Enter your exam date and chapters and get a day-by-day BIO 243 review plan that spaces and mixes your study.">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>window.S243={get:function(k,d){try{var v=localStorage.getItem("s243_"+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set:function(k,v){try{localStorage.setItem("s243_"+k,JSON.stringify(v));}catch(e){}}};</script>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<div class="bar"><a class="logo" href="../index.html"><span class="crest" aria-hidden="true">243</span><span><b>Success Lab</b><small>BIO 243 · USC Upstate</small></span></a>
+<nav class="nav" aria-label="Main"><a href="../weeks/index.html">Weeks</a><a href="../book/index.html">Book</a><a href="../index.html#tools">Tools</a><a href="../index.html#games">Games</a><a href="../index.html#ai">AI rules</a></nav>
+<a class="btn sm" href="../weeks/index.html">The 15 weeks</a></div>
+<nav class="mnav" aria-label="Sections"><a href="../weeks/index.html">Weeks</a><a href="../book/index.html">Book</a><a href="../index.html#tools">Tools</a><a href="../index.html#games">Games</a><a href="../index.html#ai">AI rules</a></nav>
+</div></header>
+<main id="main">
+<section class="phero"><div class="wrap">
+<div class="crumbs"><a href="../index.html">Success Lab</a><span aria-hidden="true">/</span><span>Tools</span><span aria-hidden="true">/</span><span>Exam Planner</span></div>
+<h1>Exam Planner</h1>
+<p class="sub">Plan backward from the exam. Choose the exam, enter the date from your syllabus, mark the chapters you feel shaky on, and get a day-by-day plan that spaces and mixes your review.</p>
+</div></section>
+<div class="wrap body tool">
+<style>
+.ep{display:grid;gap:22px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:1000px){.ep{grid-template-columns:380px minmax(0,1fr);align-items:start}.ep-form{position:sticky;top:84px}}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}
+.seg button{font:700 14px var(--body);padding:10px 4px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--maroon);border-color:var(--maroon);color:#fff}
+.chs{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.chs li{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:7px 9px;font-size:14px}
+.chs li.off{opacity:.55}
+.chs input{width:18px;height:18px;accent-color:var(--maroon);flex:none}
+.chs .nm{flex:1;min-width:0;line-height:1.3}
+.chs .nm small{display:block;color:var(--mute);font-size:12px}
+.shaky{font:700 12px var(--body);padding:5px 8px;border-radius:9px;border:1.5px solid var(--line2);background:var(--card);color:var(--mute);cursor:pointer;flex:none}
+.shaky[aria-pressed=true]{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.days{display:grid;gap:12px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+.day.eve{border-color:var(--gold);background:color-mix(in srgb,var(--gold-soft) 60%,var(--card))}
+.day.exam{border-color:var(--maroon);background:var(--maroon);color:#fff}
+.day.exam h3,.day.exam .dn{color:#fff}
+.day h3{font-size:19px;margin:0}
+.day .dn{font:800 11.5px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-t)}
+.day .min{float:right;font-size:12.5px;font-weight:700;color:var(--mute)}
+.day ul.checklist{margin-top:10px}
+.day .checklist label{background:var(--card)}
+.early{background:var(--teal-soft);border:1px solid #bcdde2;border-radius:14px;padding:12px 14px;font-size:14.5px}
+.warn{background:var(--bad-soft);border:1px solid #efc4bf;border-radius:14px;padding:12px 14px;font-size:14.5px;color:#7d2420}
+.sumline{font-size:14.5px;color:var(--mute);margin-bottom:12px}
+@media print{.ep{grid-template-columns:1fr}.ep-form{display:none}.day{break-inside:avoid;box-shadow:none}}
+</style>
+<div class="ep">
+<div class="ep-form card">
+<span class="label">1. Which exam?</span>
+<div class="seg" role="group" aria-label="Exam" id="seg"><button type="button" data-k="e1">Exam 1</button><button type="button" data-k="e2">Exam 2</button><button type="button" data-k="e3">Exam 3</button><button type="button" data-k="fin">Final</button></div>
+<div class="row2">
+<div class="field"><label for="dexam">2. Exam date</label><input class="in" type="date" id="dexam"><small>From your BIO 243 syllabus.</small></div>
+<div class="field"><label for="dstart">Start planning on</label><input class="in" type="date" id="dstart"></div>
+</div>
+<div class="field"><label for="mins">3. Study time you can give it each day</label>
+<select class="in" id="mins"><option value="30">About 30 minutes</option><option value="45">About 45 minutes</option><option value="60" selected>About 1 hour</option><option value="90">About 1.5 hours</option><option value="120">About 2 hours</option></select></div>
+<span class="label" style="margin-top:4px">4. Chapters on this exam</span>
+<p style="font-size:13.5px;color:var(--mute);margin:0 0 8px">Untick anything your syllabus leaves out. Tap <b>Shaky</b> on chapters you feel unsure about; they get extra time.</p>
+<ul class="chs" id="chs"></ul>
+<div class="btnrow"><button class="btn green" type="button" id="go">Build my plan</button></div>
+<p class="privacy"><b>Private.</b> Plans are saved only in this browser on this device.</p>
+</div>
+<div>
+<div id="out"><div class="card"><span class="label">Your plan</span><h2>Ready when you are</h2><p style="color:var(--mute)">Choose an exam, enter its date and press <b>Build my plan</b>. You will get a checklist for each day, a print button and a calendar file you can add to your phone.</p></div></div>
+</div>
+</div>
+</div>
+<script>
+(function(){
+  "use strict";
+  var S=window.S243;
+  var CH=[[1,"An Introduction to the Human Body","terms, body regions and cavities, homeostasis and feedback loops"],
+    [2,"The Chemical Level of Organization","bonds, water, pH and buffers, carbohydrates, lipids, proteins, nucleic acids"],
+    [3,"The Cellular Level of Organization","membrane transport, organelles, DNA replication, protein synthesis, mitosis"],
+    [4,"The Tissue Level of Organization","the four tissue types, epithelial shapes and layers, connective tissues"],
+    [5,"The Integumentary System","epidermis layers, dermis, accessory structures, wound healing"],
+    [6,"Bone Tissue and the Skeletal System","bone cells, compact vs spongy bone, ossification, growth, remodeling, repair"],
+    [9,"Joints","structural and functional classes, synovial joint parts, types of movement"],
+    [10,"Muscle Tissue","sarcomere structure, neuromuscular junction, sliding filament, cardiac and smooth muscle"],
+    [12,"The Nervous System and Nervous Tissue","neurons and glia, resting potential, action potential, synapses"],
+    [13,"Anatomy of the Nervous System","brain regions, meninges, ventricles, spinal cord, cranial and spinal nerves"],
+    [14,"The Somatic Nervous System","sensory receptors, vision, hearing, balance, motor responses"],
+    [15,"The Autonomic Nervous System","sympathetic vs parasympathetic, receptors, autonomic reflexes"],
+    [16,"The Neurological Exam","mental status, cranial nerve, sensory, motor and coordination exams"]];
+  var PRE={e1:[1,2,3,4],e2:[5,6,9,10],e3:[12,13,16],fin:[1,2,3,4,5,6,9,10,12,13,14,15,16]};
+  var NAME={e1:"Exam 1",e2:"Exam 2",e3:"Exam 3",fin:"Final exam"};
+  var NEW={14:1,15:1};
+  var st=S.get("ep_state",{k:"e1",sel:{},shaky:{},mins:60,dexam:"",dstart:""});
+  if(/final=1/.test(location.search))st.k="fin";
+  var seg=document.getElementById("seg"),chs=document.getElementById("chs");
+  function iso(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);}
+  function parse(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2]);}
+  function addD(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);}
+  var today=iso(new Date());
+  document.getElementById("dstart").value=st.dstart&&st.dstart>=today?st.dstart:today;
+  document.getElementById("dexam").value=st.dexam||"";
+  document.getElementById("mins").value=String(st.mins||60);
+  function drawSeg(){[].forEach.call(seg.children,function(b){b.setAttribute("aria-pressed",b.getAttribute("data-k")===st.k);});}
+  function drawCh(){var on=st.sel[st.k]||PRE[st.k],sh=st.shaky[st.k]||[];
+    chs.innerHTML=CH.filter(function(c){return st.k==="fin"||PRE[st.k].indexOf(c[0])>=0||on.indexOf(c[0])>=0;}).map(function(c){
+      var i=on.indexOf(c[0])>=0,s=sh.indexOf(c[0])>=0;
+      return '<li class="'+(i?"":"off")+'"><input type="checkbox" '+(i?"checked":"")+' data-c="'+c[0]+'" aria-label="Include chapter '+c[0]+'"><span class="nm">Ch '+c[0]+'. '+c[1]+(st.k==="fin"&&NEW[c[0]]?' <small>Newer material, not on Exams 1 to 3</small>':'')+'</span><button type="button" class="shaky" data-s="'+c[0]+'" aria-pressed="'+s+'">Shaky</button></li>';}).join("");}
+  seg.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;st.k=b.getAttribute("data-k");drawSeg();drawCh();S.set("ep_state",st);});
+  chs.addEventListener("change",function(e){var c=+e.target.getAttribute("data-c");var on=(st.sel[st.k]||PRE[st.k]).slice();var i=on.indexOf(c);if(e.target.checked&&i<0)on.push(c);if(!e.target.checked&&i>=0)on.splice(i,1);st.sel[st.k]=on;e.target.closest("li").classList.toggle("off",!e.target.checked);S.set("ep_state",st);});
+  chs.addEventListener("click",function(e){var b=e.target.closest(".shaky");if(!b)return;var c=+b.getAttribute("data-s"),sh=(st.shaky[st.k]||[]).slice(),i=sh.indexOf(c);if(i<0)sh.push(c);else sh.splice(i,1);st.shaky[st.k]=sh;b.setAttribute("aria-pressed",i<0);S.set("ep_state",st);});
+  drawSeg();drawCh();
+  function chName(n){for(var i=0;i<CH.length;i++)if(CH[i][0]===n)return CH[i];}
+  var DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function nice(d){return DOW[d.getDay()]+", "+MON[d.getMonth()]+" "+d.getDate();}
+  function build(){
+    st.dexam=document.getElementById("dexam").value;st.dstart=document.getElementById("dstart").value;st.mins=+document.getElementById("mins").value;S.set("ep_state",st);
+    var out=document.getElementById("out");
+    if(!st.dexam){out.innerHTML='<div class="warn">Enter your exam date first. You can find it in the BIO 243 syllabus.</div>';return;}
+    var ex=parse(st.dexam),s0=parse(st.dstart||today),fin=st.k==="fin",cap=fin?16:10;
+    var chapters=(st.sel[st.k]||PRE[st.k]).slice().sort(function(a,b){return a-b;}),sh=(st.shaky[st.k]||[]).filter(function(c){return chapters.indexOf(c)>=0;});
+    if(!chapters.length){out.innerHTML='<div class="warn">Tick at least one chapter.</div>';return;}
+    var D=Math.round((ex-s0)/864e5);
+    if(D<1){out.innerHTML='<div class="warn">The exam date needs to be after your start date.</div>';return;}
+    var early="",start=s0;
+    if(D>cap){start=addD(ex,-cap);early='<div class="early"><b>You are starting early. Great.</b> Until '+nice(start)+', keep up with your weekly spaced review and the Reading Guide as you go. The focused plan below starts '+cap+' days out.</div>';D=cap;}
+    // order: weak first for the final, chapter order otherwise; shaky and newer chapters get a second slot
+    var order=fin?sh.concat(chapters.filter(function(c){return sh.indexOf(c)<0&&NEW[c];})).concat(chapters.filter(function(c){return sh.indexOf(c)<0&&!NEW[c];})):chapters.slice();
+    var slots=order.map(function(c){return {c:c,pass:1};});
+    order.forEach(function(c){if(sh.indexOf(c)>=0||(fin&&NEW[c]))slots.push({c:c,pass:2});});
+    var studyDays=Math.max(1,D-(D>=4?2:1)),per=Math.ceil(slots.length/studyDays),days=[],seen=[];
+    for(var i=0;i<D;i++){
+      var d=addD(start,i),t=[],kind="";
+      var left=D-1-i;
+      if(left===0){kind="eve";t.push(["Brain dump: write the hardest facts from memory on one page, then check them",20]);t.push(["Light review of that page only. No new material tonight",15]);t.push(["Pack what you need, set an alarm, and get 7 to 9 hours of sleep",0]);}
+      else if(left===1&&D>=4){t.push(["Full mixed practice set across every chapter, timed like the real exam",40]);t.push(["Review every miss: why was the right answer right?",20]);t.push(["Finish any last Reading Guide sections (it is usually due the night before the exam)",15]);}
+      else{
+        var chunk=slots.splice(0,per);
+        chunk.forEach(function(sl){var c=chName(sl.c);
+          if(sl.pass===1)t.push(["Ch "+c[0]+" ("+c[1]+"): preview your notes, then blank-page recall of "+c[2]+". Check against OpenStax and fix gaps",0]);
+          else t.push(["Ch "+c[0]+" second pass: practice questions only, then redo the ones you missed",0]);
+          seen.push({c:c[0],day:i});});
+        var old=seen.filter(function(x){return i-x.day>=2;});
+        if(old.length){var pick=old[(i*7)%old.length];t.push(["Spaced re-test: 10 quick questions on Ch "+pick.c+" from memory",10]);}
+        if(i>=Math.floor(studyDays/2)&&seen.length>=2){var mix=[];seen.forEach(function(x){if(mix.indexOf(x.c)<0)mix.push(x.c);});mix=mix.slice(-3);if(mix.length>=2)t.push(["Mixed set: shuffle questions from Ch "+mix.join(", Ch "),15]);}
+        if(left===2||(D<4&&left===1))t.push(["Reading Guide: finish the sections for this exam's chapters",15]);
+        if(!chunk.length)t.push(["Flashcards and CircleIn: review your weakest terms, both directions",0]);
+      }
+      var fixed=0,flex=0;t.forEach(function(x){if(x[1])fixed+=x[1];else flex++;});
+      var each=flex?Math.max(15,Math.round((st.mins-fixed)/flex/5)*5):0;
+      t=t.map(function(x){return [x[0],x[1]||(kind==="eve"&&!x[1]?0:each)];});
+      days.push({d:d,t:t,kind:kind});
+    }
+    var key="ep_"+st.k+"_"+st.dexam,done=S.get(key,{});
+    var html=early+(D<3?'<div class="warn" style="margin-top:10px"><b>Short on time.</b> This is a compressed plan. Focus on self-testing, not rereading, and protect your sleep the night before.</div>':'');
+    html+='<p class="sumline" style="margin-top:12px"><b>'+NAME[st.k]+'</b> on '+nice(ex)+' · '+chapters.length+' chapters · '+D+' days of review'+(sh.length?' · extra time for Ch '+sh.join(", Ch "):'')+'</p><div class="btnrow noprint" style="margin:0 0 14px"><button class="btn green sm" type="button" onclick="window.print()">Print plan</button><button class="btn ghost sm" type="button" id="ics">Add to my calendar</button></div><div class="days">';
+    days.forEach(function(x,i){var tot=0;x.t.forEach(function(y){tot+=y[1];});
+      html+='<div class="day '+x.kind+'"><span class="dn">'+(x.kind==="eve"?"Night before":"Day "+(i+1))+'</span>'+(tot?'<span class="min">about '+tot+' min</span>':'')+'<h3>'+nice(x.d)+'</h3><ul class="checklist">'+x.t.map(function(y,j){return '<li><label><input type="checkbox" data-k="'+i+'_'+j+'"'+(done[i+"_"+j]?" checked":"")+'><span>'+y[0]+(y[1]?' <small style="color:var(--mute)">('+y[1]+' min)</small>':'')+'</span></label></li>';}).join("")+'</ul></div>';});
+    html+='<div class="day exam"><span class="dn">Exam day</span><h3>'+nice(ex)+': '+NAME[st.k]+'</h3><p style="margin-top:6px">Eat something, take three slow breaths, read every stem carefully, and skip and return when you stall. Afterward, use the <a href="exam-wrapper.html" style="color:#fff;font-weight:700">Exam Wrapper</a>.</p></div></div>';
+    out.innerHTML=html;
+    out.addEventListener("change",function(e){if(e.target.getAttribute("data-k")){done[e.target.getAttribute("data-k")]=e.target.checked;S.set(key,done);}});
+    document.getElementById("ics").onclick=function(){
+      function f(d){return iso(d).replace(/-/g,"");}
+      var L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//BIO 243 Success Lab//Exam Planner//EN"];
+      days.forEach(function(x,i){var n=addD(x.d,1);L.push("BEGIN:VEVENT","UID:s243-"+st.k+"-"+f(x.d)+"-"+i+"@successlab","DTSTAMP:"+f(new Date())+"T000000Z","DTSTART;VALUE=DATE:"+f(x.d),"DTEND;VALUE=DATE:"+f(n),"SUMMARY:BIO 243 "+NAME[st.k]+" prep: day "+(i+1),"DESCRIPTION:"+x.t.map(function(y){return "- "+y[0].replace(/[,;]/g,"\\$&");}).join("\\n"),"END:VEVENT");});
+      L.push("BEGIN:VEVENT","UID:s243-"+st.k+"-exam@successlab","DTSTAMP:"+f(new Date())+"T000000Z","DTSTART;VALUE=DATE:"+f(ex),"DTEND;VALUE=DATE:"+f(addD(ex,1)),"SUMMARY:BIO 243 "+NAME[st.k],"END:VEVENT","END:VCALENDAR");
+      var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([L.join("\r\n")],{type:"text/calendar"}));a.download="BIO243-"+NAME[st.k].replace(/ /g,"-")+"-plan.ics";document.body.appendChild(a);a.click();a.remove();};
+  }
+  document.getElementById("go").onclick=build;
+  if(st.dexam)build();
+})();
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div><a class="logo" href="../index.html"><span class="crest" aria-hidden="true">243</span><span><b>Success Lab</b><small>BIO 243 · USC Upstate</small></span></a>
+<p class="who"><b>BIO 243 Success Lab</b><br>An optional companion to BIOL U243 Human Anatomy and Physiology I at USC Upstate<br>By Dr. Akash Garg</p></div>
+<div><h2>Plan</h2><ul><li><a href="../weeks/index.html">The 15 weeks</a></li><li><a href="../tools/time-budget.html">Time Budget</a></li><li><a href="../tools/exam-planner.html">Exam Planner</a></li><li><a href="../tools/spaced-review.html">Spaced Review Tracker</a></li></ul></div>
+<div><h2>Learn</h2><ul><li><a href="../book/index.html">The Success Book</a></li><li><a href="../flashcards.html">Flashcards</a></li><li><a href="../tools/self-check.html">Study Habits Self-Check</a></li><li><a href="../tools/exam-wrapper.html">Exam Wrapper</a></li><li><a href="../printables/index.html">Printables</a></li></ul></div>
+<div><h2>Play</h2><ul><li><a href="../games/chase.html">The Success Chase</a></li><li><a href="../games/smart-or-shady.html">AI: Smart or Shady?</a></li><li><a href="../games/prompt-lab.html">AI Prompt Lab</a></li></ul></div>
+<p class="fine">This site is optional and does not replace the BIO 243 syllabus or Blackboard. When they differ, your syllabus and your instructor win. Nothing you type here leaves your device. Textbook references are to OpenStax <i>Anatomy and Physiology</i> (CC BY 4.0). Site content CC BY-NC-SA 4.0.</p>
+</div></footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

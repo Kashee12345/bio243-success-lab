@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00693e">
+<title>Study Habits Self-Check · BIO 243 Success Lab</title>
+<meta name="description" content="24 quick questions that show your strongest and weakest study habits for BIO 243. Retake it to see your growth.">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>window.S243={get:function(k,d){try{var v=localStorage.getItem("s243_"+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set:function(k,v){try{localStorage.setItem("s243_"+k,JSON.stringify(v));}catch(e){}}};</script>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<div class="bar"><a class="logo" href="../index.html"><span class="crest" aria-hidden="true">243</span><span><b>Success Lab</b><small>BIO 243 · USC Upstate</small></span></a>
+<nav class="nav" aria-label="Main"><a href="../weeks/index.html">Weeks</a><a href="../book/index.html">Book</a><a href="../index.html#tools">Tools</a><a href="../index.html#games">Games</a><a href="../index.html#ai">AI rules</a></nav>
+<a class="btn sm" href="../weeks/index.html">The 15 weeks</a></div>
+<nav class="mnav" aria-label="Sections"><a href="../weeks/index.html">Weeks</a><a href="../book/index.html">Book</a><a href="../index.html#tools">Tools</a><a href="../index.html#games">Games</a><a href="../index.html#ai">AI rules</a></nav>
+</div></header>
+<main id="main">
+<section class="phero"><div class="wrap">
+<div class="crumbs"><a href="../index.html">Success Lab</a><span aria-hidden="true">/</span><span>Tools</span><span aria-hidden="true">/</span><span>Study Habits Self-Check</span></div>
+<h1>Study Habits Self-Check</h1>
+<p class="sub">24 honest answers, about five minutes. This is not a test and nobody sees it but you. Take it in week 1, again at midterm, and again at the end, then compare.</p>
+</div></section>
+<div class="wrap body tool">
+<style>
+.scg{display:grid;gap:22px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:1000px){.scg{grid-template-columns:minmax(0,1fr) 380px;align-items:start}.scside{position:sticky;top:84px}}
+.sc-sec{margin-bottom:22px}
+.sc-sec h2{font-size:22px;margin-bottom:10px}
+.it{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.it.miss{border-color:var(--bad)}
+.it p{font-weight:600;line-height:1.4;margin-bottom:8px}
+.lk{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.lk label{display:block;cursor:pointer}
+.lk input{position:absolute;opacity:0;pointer-events:none}
+.lk span{display:block;text-align:center;font:700 12px/1.2 var(--body);padding:9px 2px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--mute)}
+.lk input:checked + span{background:var(--maroon);border-color:var(--maroon);color:#fff}
+.lk input:focus-visible + span{outline:3px solid var(--teal);outline-offset:2px}
+.bars{display:grid;gap:10px}
+.bar1 .bl{display:flex;justify-content:space-between;font-size:14px;font-weight:700}
+.bar1 .bt{height:14px;border-radius:9px;background:var(--bg2);overflow:hidden;position:relative;margin-top:4px}
+.bar1 .bt i{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:var(--maroon)}
+.bar1 .bt s{position:absolute;top:-2px;bottom:-2px;width:3px;border-radius:2px;background:var(--gold-d)}
+.bar1 .delta{font-size:12px;font-weight:700}
+.up{color:var(--ok)}.dn{color:var(--bad)}
+.hl{border-radius:14px;padding:12px 14px;margin-top:12px;font-size:14.5px;line-height:1.5}
+.hl.g{background:var(--ok-soft)}.hl.w{background:var(--gold-soft)}
+.hist{font-size:13.5px;color:var(--mute)}
+.hist li{margin:3px 0}
+</style>
+<div class="scg">
+<form id="f">
+<div class="field" style="max-width:360px"><label for="when">When are you taking this?</label>
+<select class="in" id="when"><option>Week 1 (start of term)</option><option>Week 9 (midterm)</option><option>Week 15 (end of term)</option><option>Another time</option></select></div>
+<p style="font-size:14px;color:var(--mute);margin-bottom:16px">Answer for how you <b>actually</b> study right now, not how you wish you did. If you do not use AI, answer the AI questions for how you would use it.</p>
+<div id="items"></div>
+<div class="btnrow"><button class="btn green" type="submit">See my results</button></div>
+</form>
+<aside class="scside">
+<div class="card" id="res"><span class="label">Your results</span><h2>Answer all 24 to see your profile</h2><p style="color:var(--mute);font-size:14.5px">You will see a score for six habit areas, your strongest area, the one to grow next, and what to do about it.</p></div>
+<p class="privacy"><b>Private.</b> Your answers stay in this browser on this device. Nothing is sent anywhere.</p>
+</aside>
+</div>
+</div>
+<script>
+(function(){
+  "use strict";
+  var S=window.S243;
+  var SC=[
+   {k:"time",n:"Time and planning",w:2,ch:2,fix:"Build your real week in the Time Budget Planner and put five short BIO 243 blocks in your phone calendar.",href:"time-budget.html",
+    q:["I plan my study time for the week before the week starts.","I study BIO 243 on at least four different days each week.","I start studying for an exam at least a week before it.",["I end up studying mostly the night before quizzes and exams.",1]]},
+   {k:"read",n:"Reading and notes",w:3,ch:3,fix:"Preview before you read, stop after each section to explain it, and work on the Reading Guide as you go.",href:"../weeks/week-03.html",
+    q:["I preview a chapter (headings, bold terms, figures) before I read it.","After reading a section, I stop and explain it in my own words.","I combine my lecture notes and reading notes after class.","I work on the Reading Guide while I read, not at the last minute."]},
+   {k:"mem",n:"Self-testing and memory",w:4,ch:6,fix:"Swap one rereading session for a blank-page test, and start the Spaced Review Tracker with three shaky topics.",href:"spaced-review.html",
+    q:["I test myself without looking at my notes (flashcards, practice questions, a blank page).","I go back to older material, not only the newest chapter.","I mix different topics when I practice instead of studying one at a time.",["Rereading my notes or highlighting is my main way of studying.",1]]},
+   {k:"exam",n:"Exam skills and calm",w:5,ch:9,fix:"Plan backward with the Exam Planner, protect your sleep the night before, and practice the skip-and-return habit.",href:"exam-planner.html",
+    q:["I get a full night of sleep before an exam.","During an exam I skip a question I am stuck on and come back to it.","I have a way to calm myself when I feel nervous before or during a test.","After an exam, I look at what I missed and why."]},
+   {k:"help",n:"Asking for help",w:9,ch:13,fix:"Pick one: student hours with a specific question, an SI session, or peer tutoring. Do it this week, not after the next exam.",href:"../book/ch13.html",
+    q:["I go to student hours or email my instructor when I am confused.","I use SI sessions, tutoring or study groups.","I check my USC Upstate email and Blackboard announcements at least every other day.",["I wait until things get bad before I ask for help.",1]]},
+   {k:"ai",n:"Smart AI use",w:10,ch:11,fix:"Read the five AI rules, then play the AI Prompt Lab and Smart or Shady? to practice using AI as a tutor.",href:"../games/prompt-lab.html",
+    q:["When I use AI to study, I ask it to quiz me or explain, not to give me answers to turn in.","I check what AI tells me against the textbook or my notes.","I know the AI rules in the syllabus of each of my courses.","I keep personal information out of AI tools."]}];
+  var LB=["Never","Rarely","Some­times","Often","Almost always"];
+  var html="",n=0;
+  SC.forEach(function(s){html+='<div class="sc-sec"><h2>'+s.n+'</h2>';s.q.forEach(function(q){var t=typeof q==="string"?q:q[0];n++;
+    html+='<fieldset class="it" style="margin-inline:0"><legend class="sr">Question '+n+'</legend><p>'+n+'. '+t+'</p><div class="lk">'+LB.map(function(l,v){return '<label><input type="radio" name="q'+n+'" value="'+(v+1)+'"><span>'+l+'</span></label>';}).join("")+'</div></fieldset>';});html+='</div>';});
+  document.getElementById("items").innerHTML=html;
+  var hist=S.get("sc_hist",[]);
+  function score(ans){var out={},i=0;SC.forEach(function(s){var t=0;s.q.forEach(function(q){var v=ans[i++];if(typeof q!=="string")v=6-v;t+=v;});out[s.k]=Math.round((t-4)/16*100);});return out;}
+  function show(r,prev){var arr=SC.map(function(s){return [s,r[s.k]];}),best=arr.slice().sort(function(a,b){return b[1]-a[1];})[0],low=arr.slice().sort(function(a,b){return a[1]-b[1];})[0];
+    var h='<span class="label">Your results · '+r.when+'</span><div class="bars">'+arr.map(function(a){var d=prev?a[1]-prev[a[0].k]:null;return '<div class="bar1"><div class="bl"><span>'+a[0].n+'</span><span>'+a[1]+'%'+(d!==null&&d!==0?' <span class="delta '+(d>0?"up":"dn")+'">'+(d>0?"+":"")+d+'</span>':'')+'</span></div><div class="bt"><i style="width:'+Math.max(3,a[1])+'%"></i>'+(prev?'<s style="left:'+prev[a[0].k]+'%" title="Last time"></s>':'')+'</div></div>';}).join("")+'</div>';
+    if(prev)h+='<p style="font-size:12.5px;color:var(--mute);margin-top:8px">The gold tick marks your last result ('+prev.when+').</p>';
+    h+='<div class="hl g"><b>Strongest: '+best[0].n+'.</b> Keep it going and use it to carry the others.</div>';
+    h+='<div class="hl w"><b>Grow next: '+low[0].n+'.</b> '+low[0].fix+' <br><a href="'+low[0].href+'">Start here</a> · <a href="../weeks/week-'+("0"+low[0].w).slice(-2)+'.html">Week '+low[0].w+'</a> · <a href="../book/ch'+("0"+low[0].ch).slice(-2)+'.html">Book chapter '+low[0].ch+'</a></div>';
+    if(hist.length>1)h+='<details style="margin-top:12px"><summary style="cursor:pointer;font-weight:700">All my results ('+hist.length+')</summary><ul class="hist">'+hist.map(function(x){return '<li><b>'+x.when+'</b> ('+x.date+'): '+SC.map(function(s){return s.n.split(" ")[0]+" "+x[s.k]+"%";}).join(", ")+'</li>';}).join("")+'</ul><button type="button" id="wipe" style="background:none;border:0;color:var(--bad);font-weight:700;cursor:pointer;padding:6px 0">Delete my saved results</button></details>';
+    var box=document.getElementById("res");box.innerHTML=h;
+    var w=document.getElementById("wipe");if(w)w.onclick=function(){hist=[];S.set("sc_hist",hist);box.innerHTML='<span class="label">Your results</span><p>Deleted.</p>';};}
+  document.getElementById("f").addEventListener("submit",function(e){e.preventDefault();var ans=[],miss=null;
+    for(var i=1;i<=n;i++){var c=document.querySelector('input[name=q'+i+']:checked');var fs=document.querySelector('input[name=q'+i+']').closest(".it");fs.classList.toggle("miss",!c);if(!c&&!miss)miss=fs;ans.push(c?+c.value:0);}
+    if(miss){miss.scrollIntoView({behavior:"smooth",block:"center"});return;}
+    var r=score(ans);r.when=document.getElementById("when").value;var d=new Date();r.date=(d.getMonth()+1)+"/"+d.getDate();
+    var prev=hist.length?hist[hist.length-1]:null;hist.push(r);S.set("sc_hist",hist);show(r,prev);
+    if(window.matchMedia("(max-width:999px)").matches)document.getElementById("res").scrollIntoView({behavior:"smooth"});});
+  if(hist.length)show(hist[hist.length-1],hist.length>1?hist[hist.length-2]:null);
+})();
+</script>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div><a class="logo" href="../index.html"><span class="crest" aria-hidden="true">243</span><span><b>Success Lab</b><small>BIO 243 · USC Upstate</small></span></a>
+<p class="who"><b>BIO 243 Success Lab</b><br>An optional companion to BIOL U243 Human Anatomy and Physiology I at USC Upstate<br>By Dr. Akash Garg</p></div>
+<div><h2>Plan</h2><ul><li><a href="../weeks/index.html">The 15 weeks</a></li><li><a href="../tools/time-budget.html">Time Budget</a></li><li><a href="../tools/exam-planner.html">Exam Planner</a></li><li><a href="../tools/spaced-review.html">Spaced Review Tracker</a></li></ul></div>
+<div><h2>Learn</h2><ul><li><a href="../book/index.html">The Success Book</a></li><li><a href="../flashcards.html">Flashcards</a></li><li><a href="../tools/self-check.html">Study Habits Self-Check</a></li><li><a href="../tools/exam-wrapper.html">Exam Wrapper</a></li><li><a href="../printables/index.html">Printables</a></li></ul></div>
+<div><h2>Play</h2><ul><li><a href="../games/chase.html">The Success Chase</a></li><li><a href="../games/smart-or-shady.html">AI: Smart or Shady?</a></li><li><a href="../games/prompt-lab.html">AI Prompt Lab</a></li></ul></div>
+<p class="fine">This site is optional and does not replace the BIO 243 syllabus or Blackboard. When they differ, your syllabus and your instructor win. Nothing you type here leaves your device. Textbook references are to OpenStax <i>Anatomy and Physiology</i> (CC BY 4.0). Site content CC BY-NC-SA 4.0.</p>
+</div></footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

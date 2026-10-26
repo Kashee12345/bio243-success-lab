@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00693e">
+<title>Chapter 11: Using AI the Right Way in BIO 243 · The BIO 243 Success Book</title>
+<meta name="description" content="A patient tutor, if you use it like one">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>window.S243={get:function(k,d){try{var v=localStorage.getItem("s243_"+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set:function(k,v){try{localStorage.setItem("s243_"+k,JSON.stringify(v));}catch(e){}}};</script>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<div class="bar"><a class="logo" href="../index.html"><span class="crest" aria-hidden="true">243</span><span><b>Success Lab</b><small>BIO 243 · USC Upstate</small></span></a>
+<nav class="nav" aria-label="Main"><a href="../weeks/index.html">Weeks</a><a href="../book/index.html">Book</a><a href="../index.html#tools">Tools</a><a href="../index.html#games">Games</a><a href="../index.html#ai">AI rules</a></nav>
+<a class="btn sm" href="../weeks/index.html">The 15 weeks</a></div>
+<nav class="mnav" aria-label="Sections"><a href="../weeks/index.html">Weeks</a><a href="../book/index.html">Book</a><a href="../index.html#tools">Tools</a><a href="../index.html#games">Games</a><a href="../index.html#ai">AI rules</a></nav>
+</div></header>
+<main id="main">
+<section class="phero"><div class="wrap">
+<div class="crumbs"><a href="../index.html">Success Lab</a><span aria-hidden="true">/</span><a href="index.html">The Success Book</a><span aria-hidden="true">/</span><span>Chapter 11</span></div>
+<div class="wknum"><b>Chapter 11</b><span class="pill">About 26 minutes</span><span class="pill green">Goes with <a href="../weeks/week-10.html">Week 10</a>, <a href="../weeks/week-11.html">Week 11</a></span></div>
+<h1>Using AI the Right Way in BIO 243</h1><p class="sub">A patient tutor, if you use it like one</p>
+</div></section>
+<div class="wrap body"><div class="reader">
+<nav class="toc" aria-label="In this chapter"><details><summary>In this chapter</summary><ol><li><a href="#what-ai-is">What generative AI is, and what it is not</a></li><li><a href="#five-rules">The five BIO 243 AI rules</a></li><li><a href="#tutor-not-ghostwriter">Why "tutor" beats "ghostwriter"</a></li><li><a href="#good-prompts">How to write a good study prompt</a></li><li><a href="#worked-examples">Seven worked examples on real BIO 243 topics</a></li><li><a href="#ai-errors">What AI mistakes look like in A&amp;P</a></li><li><a href="#red-lines">The lines you do not cross</a></li><li><a href="#privacy">Keep it private</a></li><li><a href="#every-class">Every class is different: asking and disclosing</a></li><li><a href="#putting-it-together">Putting it together in a real study week</a></li><li><a href="#key-terms">Key terms</a></li><li><a href="#sources">Where this comes from</a></li></ol>
+<ol style="border-top:1px solid var(--line);margin-top:8px;padding-top:6px"><li><a href="index.html">All chapters</a></li><li><a href="all.html">Whole book to print</a></li></ol></details></nav>
+<article class="prose">
+<p class="lede">AI chatbots can quiz you at midnight, explain the sliding filament model five different ways, and never get tired of your questions. They can also tell you something wrong about the cranial nerves in a calm, confident voice. This chapter shows you how to get the first and protect yourself from the second.</p>
+
+<h2 id="what-ai-is">What generative AI is, and what it is not</h2>
+<p>Tools like ChatGPT, Gemini, Claude and Copilot are called <strong>generative AI</strong>. You type a message, called a <strong>prompt</strong>, and the tool writes a reply. The replies are often clear, friendly and well organized. That makes it easy to forget what is actually happening behind the screen.</p>
+<p>Here is the plain version. These tools are built on <strong>large language models</strong>, trained on a huge amount of text. From that text they learned patterns: which words tend to follow which, in which kinds of sentences. When you ask a question, the model builds an answer one small piece at a time, each time choosing a piece that is <em>likely</em> to come next. It is a very powerful pattern machine.</p>
+<p>Notice what is missing. The model does not look up the answer in OpenStax unless you give it the text. It does not "know" the resting membrane potential the way you will after you study. For common A&amp;P topics, the likely answer is usually the correct one. Sometimes it is not, and the wrong answer sounds exactly as sure as the right one.</p>
+
+<figure class="dia"><svg viewBox="0 0 640 300" role="img" aria-label="Diagram of next-word prediction. A prompt asks for the resting membrane potential of a neuron. Four possible next words are shown as bars: minus 70 millivolts is most likely, minus 90 is possible, plus 30 and minus 55 are less likely. A note says the model picks a likely word and nothing checks it against OpenStax.">
+<rect x="20" y="16" width="600" height="58" rx="10" class="f-brandsoft s-brand" stroke-width="1.5"/>
+<text x="40" y="40" font-size="14" class="tb">Prompt</text>
+<text x="40" y="62" font-size="15" class="t">"The resting membrane potential of a neuron is about ..."</text>
+<text x="40" y="104" font-size="14" class="tm">Possible next words (illustrative, not real data)</text>
+<text x="40" y="136" font-size="15" class="tb">-70 mV</text>
+<rect x="150" y="121" width="320" height="22" rx="4" class="f-brand"/>
+<text x="480" y="137" font-size="14" class="t">most likely</text>
+<text x="40" y="170" font-size="15" class="tb">-90 mV</text>
+<rect x="150" y="155" width="120" height="22" rx="4" class="f-teal"/>
+<text x="280" y="171" font-size="14" class="t">possible</text>
+<text x="40" y="204" font-size="15" class="tb">+30 mV</text>
+<rect x="150" y="189" width="56" height="22" rx="4" class="f-gold"/>
+<text x="216" y="205" font-size="14" class="t">less likely</text>
+<text x="40" y="238" font-size="15" class="tb">-55 mV</text>
+<rect x="150" y="223" width="40" height="22" rx="4" class="f-gold"/>
+<text x="200" y="239" font-size="14" class="t">less likely</text>
+<rect x="20" y="256" width="600" height="36" rx="8" class="f-goldsoft"/>
+<text x="320" y="279" font-size="14" class="tb" text-anchor="middle">The model picks a likely word. Nothing in this step checks OpenStax.</text>
+</svg><figcaption><b>Figure 11.1</b> A language model builds its answer by choosing likely next words. Usually the likely word is right (OpenStax gives about -70 mV). When it is not, the wrong word sounds just as confident.</figcaption></figure>
+
+<p>Computer scientists call these confident mistakes <strong>hallucinations</strong>. The word is a little dramatic. It does not mean the tool is broken. It means the tool did what it always does, produce likely text, and the likely text happened to be false. Researchers who review this problem describe it as a built-in risk of how these models generate language, not a rare glitch (Ji et al., 2023).</p>
+
+<h3>Good at, bad at</h3>
+<p>For studying, AI is good at <strong>explaining an idea another way</strong> (when the OpenStax paragraph on excitation-contraction coupling did not click), <strong>making practice questions</strong>, <strong>quizzing you patiently</strong> at any hour, <strong>checking an explanation you wrote</strong>, and <strong>organizing</strong> a messy week into a plan.</p>
+<p>It is bad at <strong>exact facts and numbers</strong>, where small errors hide; at <strong>your course specifics</strong>, like what your instructor emphasized or which chapters are on Exam 2; and at <strong>sources</strong>, which it may invent. Most of all, it cannot <strong>do your learning for you</strong>. It can write a perfect summary of chapter 10. Reading that summary will not put chapter 10 into your memory.</p>
+
+<aside class="box myth"><h4>Myth or fact?</h4><p><strong>"If the AI sounds sure, it is probably right."</strong> Myth. A language model does not have a reliable inner sense of when it is guessing. It can explain a wrong idea in smooth, well-organized sentences with no hint of doubt. Confidence in the writing tells you about the writing, not about the facts. Your check is OpenStax.</p></aside>
+
+<h2 id="five-rules">The five BIO 243 AI rules</h2>
+<p>These five rules apply to everything in this Success Lab. They are short on purpose, so you can remember them when it counts.</p>
+<ol>
+<li><strong>Use AI as a tutor, not a ghostwriter.</strong> Ask it to quiz you, explain a topic another way, or check your explanation. It is fine for studying.</li>
+<li><strong>No AI on quizzes, exams or graded work</strong> (Guided Practice, Reading Guide, CircleIn posts) unless the assignment says so. Never paste quiz or exam questions into AI.</li>
+<li><strong>Check AI against the textbook.</strong> AI makes confident mistakes. OpenStax and your notes win.</li>
+<li><strong>Keep it private.</strong> Never paste in personal information: yours or anyone else's (student ID, grades, health details, classmates' names).</li>
+<li><strong>Every class is different.</strong> USC Upstate leaves many AI decisions to each instructor. In other courses, follow that syllabus, and when in doubt, ask before you use it. If AI use is allowed on an assignment, say how you used it.</li>
+</ol>
+<p>Rule 2 connects straight to the BIO 243 syllabus. The syllabus treats presenting AI work as your own as an academic integrity violation, and it treats using any outside source or device during a quiz or test as cheating. Studying together is wonderful. Graded work is answered alone. AI counts as "together" when you study and as "an outside source" when you are being graded.</p>
+
+<figure class="dia"><svg viewBox="0 0 640 330" role="img" aria-label="Two columns. Green light, AI as a tutor: quiz me one question at a time, explain it another way, check my explanation, build a study plan, make practice from my own notes. Red light, stop: quizzes and exams, Guided Practice, Reading Guide, CircleIn posts, pasting quiz or exam questions, personal information. Bottom banner: not sure, check the syllabus then ask your instructor.">
+<rect x="16" y="14" width="296" height="244" rx="12" class="f-oksoft"/>
+<rect x="16" y="14" width="296" height="44" rx="12" class="f-ok"/>
+<rect x="16" y="40" width="296" height="18" class="f-ok"/>
+<text x="164" y="43" font-size="16" class="tw" font-weight="700" text-anchor="middle">Green light: AI as tutor</text>
+<text x="34" y="90" font-size="14" class="t">Quiz me, one question at a time</text>
+<text x="34" y="124" font-size="14" class="t">Explain it another way</text>
+<text x="34" y="158" font-size="14" class="t">Check my explanation</text>
+<text x="34" y="192" font-size="14" class="t">Build a study plan</text>
+<text x="34" y="226" font-size="14" class="t">Make practice from my own notes</text>
+<rect x="328" y="14" width="296" height="244" rx="12" class="f-badsoft"/>
+<rect x="328" y="14" width="296" height="44" rx="12" class="f-bad"/>
+<rect x="328" y="40" width="296" height="18" class="f-bad"/>
+<text x="476" y="43" font-size="16" class="tw" font-weight="700" text-anchor="middle">Red light: stop</text>
+<text x="346" y="90" font-size="14" class="t">Quizzes and exams</text>
+<text x="346" y="120" font-size="14" class="t">Guided Practice</text>
+<text x="346" y="150" font-size="14" class="t">Reading Guide</text>
+<text x="346" y="180" font-size="14" class="t">CircleIn posts</text>
+<text x="346" y="210" font-size="14" class="t">Pasting quiz or exam questions</text>
+<text x="346" y="240" font-size="14" class="t">Personal information</text>
+<rect x="16" y="272" width="608" height="44" rx="10" class="f-goldsoft s-gold" stroke-width="1.5"/>
+<text x="320" y="299" font-size="15" class="tb" text-anchor="middle">Not sure? Check the syllabus, then ask your instructor first.</text>
+</svg><figcaption><b>Figure 11.2</b> The five rules at a glance. Studying is green. Anything graded, and anything personal, is red unless the assignment itself says otherwise.</figcaption></figure>
+
+<h2 id="tutor-not-ghostwriter">Why "tutor" beats "ghostwriter"</h2>
+<p>There is a learning reason behind rule 1, not just a rule-following reason. In Chapter 6 you met retrieval practice: pulling information out of your memory is one of the strongest ways to make it stick (Roediger &amp; Karpicke, 2006). The effort is the point. When AI hands you a finished answer, you skip the effort, and you skip most of the learning with it.</p>
+<p>A large study with high school math students in Turkey tested this directly (Bastani et al., 2025). Some students practiced with a plain chatbot that would simply give answers. Others practiced with a version set up as a tutor that gave hints instead of answers. The plain chatbot helped students do better on the practice problems while they had it. But on a later test without AI, those students did worse than students who never had the chatbot at all. The tutor-style version largely avoided that harm. The study was in math, not A&amp;P, so treat it as a warning sign rather than the final word: the tool made practice easier, and easier practice built less skill.</p>
+<p>So the goal is not "use AI less." The goal is to make AI ask <em>you</em> the questions.</p>
+
+<aside class="box story"><h4>Picture this</h4><p>Imagine two fictional BIO 243 students, Dev and Rosa, both studying chapter 10 for Exam 2. Dev asks a chatbot to "summarize muscle contraction." He reads the summary three times. It feels clear and familiar. Rosa asks the chatbot to "quiz me on muscle contraction, one question at a time, and wait for my answer." She gets three of the first eight wrong, checks each one in OpenStax section 10.3, and makes a flashcard for every miss. Rosa's evening felt harder. On exam day, she is the one who can explain why ATP is needed for a myosin head to let go of actin. Dev recognizes the words but cannot pull them up on his own.</p></aside>
+
+<div class="qc" data-c="1"><p class="q">Which use of AI fits rule 1, "tutor, not ghostwriter"?</p><ol class="opts"><li>Asking AI to fill in your OpenStax Reading Guide so you can study from it</li><li>Asking AI to quiz you on epithelial tissue and wait for your answers</li><li>Asking AI to write your CircleIn post about bone remodeling</li><li>Pasting a Blackboard quiz question to see how AI would answer it</li></ol><p class="why">A tutor makes you do the thinking. Being quizzed is retrieval practice. The Reading Guide and CircleIn posts are graded work, and quiz questions never go into AI.</p></div>
+
+<h2 id="good-prompts">How to write a good study prompt</h2>
+<p>A vague prompt ("explain muscles") gets a vague essay. A strong study prompt usually has five parts:</p>
+<ol>
+<li><strong>Who you are.</strong> "I am a pre-nursing student in Anatomy and Physiology I." This sets the level.</li>
+<li><strong>The exact topic, tied to your book.</strong> "The action potential, OpenStax Anatomy and Physiology chapter 12." This narrows the answer.</li>
+<li><strong>The job.</strong> Quiz me, explain another way, or check my explanation. Pick one.</li>
+<li><strong>The format.</strong> "One question at a time. Wait for my answer." Or "a numbered list of steps." Or "answers at the bottom."</li>
+<li><strong>A safety line.</strong> "If you are not sure about something, say so. Do not make up sources." This does not make the tool perfect, but it helps.</li>
+</ol>
+<p>Then add the most important step, which happens after the answer: <strong>check it</strong>. Every worked example below ends with exactly what to look up.</p>
+
+<aside class="box ai"><h4>Smart AI move</h4><p>Add one line to the end of any quiz prompt: <em>"After each answer I give, ask me to explain why, before you tell me if I am right."</em> This turns a simple recall quiz into self-explanation, which pushes you past recognizing a term to understanding it. It also slows you down in a good way.</p></aside>
+
+<h2 id="worked-examples">Seven worked examples on real BIO 243 topics</h2>
+<p>Each example shows a prompt you could type, what a useful answer looks like, and exactly what to check in OpenStax. Section numbers refer to the free OpenStax <em>Anatomy and Physiology</em> textbook. If your edition numbers sections a little differently, use the section title.</p>
+
+<h3>Example 1: Quiz me on tissue types (chapter 4)</h3>
+<p><strong>Prompt:</strong> <em>"I am a pre-nursing student in Anatomy and Physiology I, using the OpenStax textbook, chapter 4. Quiz me on the four basic tissue types. Ask one question at a time and wait for my answer. After I answer, tell me if I was right and why."</em></p>
+<p><strong>A useful answer</strong> asks a single question and then stops, for example: "Which tissue type covers body surfaces and lines body cavities?" It waits. When you answer, it gives a short reason and moves on. Good questions mix levels: some ask for a name, some ask you to match a function to a tissue, some give a short scenario.</p>
+<p><strong>Check in OpenStax, section 4.1 (Types of Tissues):</strong> the four types are epithelial, connective, muscle and nervous. Check the functions the AI gives. Epithelial tissue covers and lines. Connective tissue binds, supports and protects, and it includes bone, cartilage, fat and blood. Muscle tissue contracts. Nervous tissue sends electrical and chemical signals. One mistake to watch for: some answers treat blood as if it were not a tissue at all. OpenStax classifies blood as a fluid connective tissue.</p>
+
+<h3>Example 2: Explain the sliding filament model another way (chapter 10)</h3>
+<p><strong>Prompt:</strong> <em>"Explain the sliding filament model of skeletal muscle contraction as if I were a first-year nursing student. Use a short numbered list of steps and one everyday comparison. Then ask me two questions to check my understanding."</em></p>
+<p><strong>A useful answer</strong> walks through the cross-bridge cycle in order. Calcium is released from the sarcoplasmic reticulum. Calcium binds to troponin, which moves tropomyosin off the binding sites on actin. Myosin heads attach to actin and pull the thin filaments toward the center of the sarcomere (the power stroke). A new ATP binds to the myosin head, which makes the head let go. Splitting that ATP re-cocks the head so it can grab again. The cycle repeats as long as calcium and ATP are available. Then it asks you questions instead of stopping.</p>
+<p><strong>Check in OpenStax, section 10.3 (Muscle Fiber Contraction and Relaxation)</strong> and the sarcomere figures in 10.2. Two errors to hunt for. First, some answers say ATP is needed for myosin to <em>attach</em> to actin. In OpenStax, ATP binding is what lets myosin <em>detach</em>. That is why muscles lock up in rigor mortis when ATP runs out. Second, watch what the answer says about the bands. The filaments do not shorten; they slide. Figure 11.3 shows what changes.</p>
+
+<figure class="dia"><svg viewBox="0 0 640 360" role="img" aria-label="A relaxed sarcomere above a contracted sarcomere. In both, thick myosin filaments sit in the center and thin actin filaments extend from the Z discs. In the contracted sarcomere the Z discs are closer together, the I bands and H zone are narrower, and the A band is the same length.">
+<text x="20" y="26" font-size="16" class="th">Relaxed</text>
+<text x="60" y="44" font-size="13" class="tm" text-anchor="middle">Z disc</text>
+<text x="580" y="44" font-size="13" class="tm" text-anchor="middle">Z disc</text>
+<text x="320" y="38" font-size="14" class="tb" text-anchor="middle">H zone</text>
+<path d="M270 44 V50 H370 V44" fill="none" class="s-ink" stroke-width="1.5"/>
+<line x1="60" y1="70" x2="270" y2="70" class="s-teal" stroke-width="3"/>
+<line x1="60" y1="90" x2="270" y2="90" class="s-teal" stroke-width="3"/>
+<line x1="60" y1="110" x2="270" y2="110" class="s-teal" stroke-width="3"/>
+<line x1="60" y1="130" x2="270" y2="130" class="s-teal" stroke-width="3"/>
+<line x1="370" y1="70" x2="580" y2="70" class="s-teal" stroke-width="3"/>
+<line x1="370" y1="90" x2="580" y2="90" class="s-teal" stroke-width="3"/>
+<line x1="370" y1="110" x2="580" y2="110" class="s-teal" stroke-width="3"/>
+<line x1="370" y1="130" x2="580" y2="130" class="s-teal" stroke-width="3"/>
+<line x1="200" y1="80" x2="440" y2="80" class="s-brand" stroke-width="9"/>
+<line x1="200" y1="100" x2="440" y2="100" class="s-brand" stroke-width="9"/>
+<line x1="200" y1="120" x2="440" y2="120" class="s-brand" stroke-width="9"/>
+<line x1="60" y1="58" x2="60" y2="142" class="s-ink" stroke-width="4"/>
+<line x1="580" y1="58" x2="580" y2="142" class="s-ink" stroke-width="4"/>
+<path d="M60 150 V156 H198 V150 M202 150 V156 H438 V150 M442 150 V156 H580 V150" fill="none" class="s-ink" stroke-width="1.5"/>
+<text x="130" y="174" font-size="14" class="tb" text-anchor="middle">I band</text>
+<text x="320" y="174" font-size="14" class="tb" text-anchor="middle">A band</text>
+<text x="510" y="174" font-size="14" class="tb" text-anchor="middle">I band</text>
+<text x="20" y="208" font-size="16" class="th">Contracted</text>
+<text x="320" y="214" font-size="14" class="tb" text-anchor="middle">H zone: narrower</text>
+<path d="M310 220 V226 H330 V220" fill="none" class="s-ink" stroke-width="1.5"/>
+<line x1="100" y1="246" x2="310" y2="246" class="s-teal" stroke-width="3"/>
+<line x1="100" y1="266" x2="310" y2="266" class="s-teal" stroke-width="3"/>
+<line x1="100" y1="286" x2="310" y2="286" class="s-teal" stroke-width="3"/>
+<line x1="100" y1="306" x2="310" y2="306" class="s-teal" stroke-width="3"/>
+<line x1="330" y1="246" x2="540" y2="246" class="s-teal" stroke-width="3"/>
+<line x1="330" y1="266" x2="540" y2="266" class="s-teal" stroke-width="3"/>
+<line x1="330" y1="286" x2="540" y2="286" class="s-teal" stroke-width="3"/>
+<line x1="330" y1="306" x2="540" y2="306" class="s-teal" stroke-width="3"/>
+<line x1="200" y1="256" x2="440" y2="256" class="s-brand" stroke-width="9"/>
+<line x1="200" y1="276" x2="440" y2="276" class="s-brand" stroke-width="9"/>
+<line x1="200" y1="296" x2="440" y2="296" class="s-brand" stroke-width="9"/>
+<line x1="100" y1="234" x2="100" y2="318" class="s-ink" stroke-width="4"/>
+<line x1="540" y1="234" x2="540" y2="318" class="s-ink" stroke-width="4"/>
+<path d="M100 326 V332 H198 V326 M202 326 V332 H438 V326 M442 326 V332 H540 V326" fill="none" class="s-ink" stroke-width="1.5"/>
+<text x="150" y="350" font-size="14" class="tb" text-anchor="middle">I band</text>
+<text x="320" y="350" font-size="14" class="tb" text-anchor="middle">A band: same</text>
+<text x="490" y="350" font-size="14" class="tb" text-anchor="middle">I band</text>
+</svg><figcaption><b>Figure 11.3</b> Thin filaments (teal) slide past thick filaments (green). The Z discs move closer, the I bands and H zone narrow, and the A band, which is the length of the thick filaments, stays the same. An AI answer that says "the A band shortens" is a classic confident error.</figcaption></figure>
+
+<h3>Example 3: Check my explanation of an action potential (chapter 12)</h3>
+<p><strong>Prompt:</strong> <em>"Here is my explanation of a neuron's action potential, written from memory. Do not rewrite it for me. Point out anything wrong or missing, and ask me a question that helps me fix it myself. My explanation: At rest the inside of the neuron is about -70 mV. A stimulus brings it to threshold, and sodium channels open so sodium rushes in. Then the sodium-potassium pump pushes the sodium back out, which repolarizes the cell."</em></p>
+<p>This is the best kind of prompt: you did the work first, from memory, and the AI acts like a study partner reading your draft.</p>
+<p><strong>A useful answer</strong> praises what is right (resting potential, threshold, sodium entering) and flags the problem in the last sentence. Repolarization happens mainly because voltage-gated sodium channels inactivate and voltage-gated potassium channels open, so potassium flows <em>out</em> of the cell. The sodium-potassium pump keeps the ion gradients in place over time, but it is not what brings the membrane back down during a single action potential. A good tutor then asks you something like: "Which ion leaves the cell during repolarization, and through what kind of channel?"</p>
+<p><strong>Check in OpenStax, section 12.4 (The Action Potential):</strong> resting potential about -70 mV, threshold about -55 mV, a peak around +30 mV, then repolarization and a brief hyperpolarization. Also check the phrase "all or none." If the answer says an action potential can be "partly" fired or gets bigger with a bigger stimulus, that is wrong for an action potential.</p>
+
+<div class="qc" data-c="3"><p class="q">An AI explanation says, "During repolarization, the sodium-potassium pump moves sodium out of the neuron." What should you do?</p><ol class="opts"><li>Accept it, since it explained the rest of the process clearly</li><li>Ask the AI if it is sure, and accept its second answer</li><li>Paste it into your Guided Practice so you have it saved</li><li>Check OpenStax 12.4: repolarization is driven mainly by potassium leaving through voltage-gated potassium channels</li></ol><p class="why">Rule 3: OpenStax and your notes win. Asking the AI again is not a real check, because it can be confidently wrong twice. And Guided Practice is graded work.</p></div>
+
+<h3>Example 4: Compare the phases of mitosis (chapter 3)</h3>
+<p><strong>Prompt:</strong> <em>"Make a simple table comparing the phases of mitosis: what the chromosomes, nuclear envelope and spindle are doing in each phase. Use the phase names from the OpenStax Anatomy and Physiology textbook, chapter 3."</em></p>
+<p><strong>A useful answer</strong> gives a clean table you can then cover up and fill in from memory, which turns it into self-testing. It should keep interphase separate, because interphase is not part of mitosis; it is the long stretch when the cell grows and copies its DNA.</p>
+<p><strong>Check in OpenStax, section 3.5 (Cell Growth and Division):</strong> OpenStax lists prophase, prometaphase, metaphase, anaphase and telophase, with cytokinesis as the splitting of the cytoplasm. Many other sources teach four phases and leave out prometaphase. An AI trained on all of them may give you the four-phase version even when you asked for OpenStax. Neither is "wrong" science, but your exam follows your course. When the AI and your textbook use different names or counts, use the textbook's.</p>
+
+<h3>Example 5: Practice the cranial nerves (chapters 13 and 16)</h3>
+<p><strong>Prompt:</strong> <em>"Give me 10 mixed practice questions on the 12 cranial nerves. Cover the name, the Roman numeral, whether it is sensory, motor or both, and one way it is tested in a neurological exam. Put the questions first and the answers at the very bottom."</em></p>
+<p><strong>A useful answer</strong> mixes question types instead of going I through XII in order, and answers at the bottom let you try first.</p>
+<p><strong>Check in OpenStax, section 13.4 (The Peripheral Nervous System)</strong> for the nerve list and section 16.3 (The Cranial Nerve Exam) for the tests. The eye-movement nerves are a common place for mix-ups. The oculomotor nerve (III) moves most of the eye muscles. The trochlear nerve (IV) controls the superior oblique. The abducens nerve (VI) controls the lateral rectus. An AI answer that swaps IV and VI reads perfectly smoothly, which is exactly why you check. Many students remember it as "LR6, SO4": lateral rectus by six, superior oblique by four.</p>
+
+<aside class="box ap"><h4>A&amp;P in action</h4><p>The errors in Examples 4 and 5 are not "dumb." Both are <em>plausible</em>: a real alternate way of teaching mitosis, and two eye nerves that sit side by side in every list. That is what AI mistakes in A&amp;P usually look like: almost right, in a place where almost right costs you a question.</p></aside>
+
+<h3>Example 6: Build a mixed review for Exam 2 (chapters 5, 6, 9 and 10)</h3>
+<p><strong>Prompt:</strong> <em>"Make a 12-question multiple-choice practice set that jumps between skin layers, bone cells, joint types and muscle tissue, in a mixed order. Put the answers at the end, each with a one-sentence reason. These are for my own practice, not for a graded assignment."</em></p>
+<p><strong>A useful answer</strong> really mixes the topics. Mixing forces you to decide which idea a question is about, which is the interleaving you met in Chapter 6. This is AI-made practice, not your real quiz. You are never pasting in Blackboard quiz questions.</p>
+<p><strong>Check in OpenStax.</strong> In section 5.1 (Layers of the Skin), the epidermis layers from deep to surface are stratum basale, spinosum, granulosum, lucidum and corneum, and the stratum lucidum is found only in thick skin, such as the palms and soles. In section 6.3 (Bone Structure), osteoblasts build bone matrix, osteocytes maintain it, and osteoclasts break it down. In chapter 9, joints are classified by structure (fibrous, cartilaginous, synovial) and by function (synarthrosis, amphiarthrosis, diarthrosis). Swapped pairs, like osteoblast and osteoclast, are a favorite AI slip. If even one answer key item is wrong, fix it in your copy, then trust the rest of the set a little less.</p>
+
+<h3>Example 7: Turn my own notes into flashcards (chapter 1)</h3>
+<p><strong>Prompt:</strong> <em>"Below are my own notes on homeostasis and feedback loops. Turn them into 8 flashcards with a question on the front and a short answer on the back. Do not add facts that are not in my notes. If you think something important is missing, list it separately at the end. [paste your notes]"</em></p>
+<p><strong>A useful answer</strong> stays inside your notes, so the cards match what your class covered. The separate "might be missing" list is a prompt for you to go look, not a list of facts to accept.</p>
+<p><strong>Check in OpenStax, section 1.5 (Homeostasis):</strong> negative feedback pushes a variable back toward its set point, like body temperature regulation. Positive feedback pushes a change further in the same direction until an endpoint, like childbirth contractions intensified by oxytocin, or blood clotting. If a card calls blood glucose control "positive feedback," that card is wrong. Also notice what you pasted: your own study notes. Not a graded assignment, and nothing personal.</p>
+
+<h2 id="ai-errors">What AI mistakes look like in A&amp;P</h2>
+<p>Check enough answers and you will see the same kinds of errors again and again:</p>
+<ul>
+<li><strong>Swapped pairs.</strong> Osteoblast and osteoclast. Afferent (toward the CNS) and efferent (away from it). Sympathetic and parasympathetic effects in chapter 15. Trochlear and abducens.</li>
+<li><strong>Plausible but wrong terms.</strong> A real-sounding word in the wrong place, like calling a band of the sarcomere by the wrong letter.</li>
+<li><strong>Wrong numbers.</strong> A threshold, a count of bones, a number of layers. Close numbers are the hardest to spot.</li>
+<li><strong>Oversimplified until wrong.</strong> "The pump repolarizes the neuron" is a simplification that crosses into error.</li>
+<li><strong>Different from your course.</strong> Correct in some textbook, but not how OpenStax or your instructor teaches it, like the four-phase mitosis list.</li>
+<li><strong>Invented sources.</strong> Ask for references and you may get a journal article with real-sounding authors, a real journal name, and a title that does not exist. When researchers checked citations that ChatGPT wrote for literature reviews, many were made up, and the newer model, while better, still invented some (Walters &amp; Wilder, 2023). Never put an AI-supplied source into any paper without finding the actual source yourself.</li>
+<li><strong>Labels on images.</strong> If you ask an AI to label a diagram, or describe a picture of a bone, treat every label as a guess until you match it to an OpenStax figure.</li>
+</ul>
+
+<figure class="dia"><svg viewBox="0 0 640 330" role="img" aria-label="Flow chart of the check loop. Step one, ask a clear prompt. Step two, read the answer. Step three, find the OpenStax section. Then a decision: does it match? If yes, test yourself and make a flashcard. If no, OpenStax wins: write down the error and ask a follow-up, which loops back to step one.">
+<defs><marker id="ah11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="f-ink"/></marker></defs>
+<rect x="16" y="20" width="176" height="76" rx="10" class="f-brandsoft s-brand" stroke-width="1.5"/>
+<text x="104" y="52" font-size="15" class="tb" text-anchor="middle">1. Ask a clear</text>
+<text x="104" y="72" font-size="15" class="tb" text-anchor="middle">study prompt</text>
+<rect x="232" y="20" width="176" height="76" rx="10" class="f-brandsoft s-brand" stroke-width="1.5"/>
+<text x="320" y="52" font-size="15" class="tb" text-anchor="middle">2. Read the</text>
+<text x="320" y="72" font-size="15" class="tb" text-anchor="middle">answer slowly</text>
+<rect x="448" y="20" width="176" height="76" rx="10" class="f-brandsoft s-brand" stroke-width="1.5"/>
+<text x="536" y="52" font-size="15" class="tb" text-anchor="middle">3. Find the</text>
+<text x="536" y="72" font-size="15" class="tb" text-anchor="middle">OpenStax section</text>
+<line x1="192" y1="58" x2="228" y2="58" class="s-ink" stroke-width="2" marker-end="url(#ah11)"/>
+<line x1="408" y1="58" x2="444" y2="58" class="s-ink" stroke-width="2" marker-end="url(#ah11)"/>
+<line x1="536" y1="96" x2="536" y2="126" class="s-ink" stroke-width="2" marker-end="url(#ah11)"/>
+<path d="M536 130 L606 168 L536 206 L466 168 Z" class="f-goldsoft s-gold" stroke-width="2"/>
+<text x="536" y="174" font-size="15" class="tb" text-anchor="middle">Match?</text>
+<line x1="466" y1="168" x2="412" y2="168" class="s-ink" stroke-width="2" marker-end="url(#ah11)"/>
+<text x="440" y="158" font-size="13" class="tm" text-anchor="middle">yes</text>
+<rect x="232" y="132" width="176" height="76" rx="10" class="f-oksoft s-ok" stroke-width="1.5"/>
+<text x="320" y="164" font-size="15" class="tb" text-anchor="middle">Test yourself,</text>
+<text x="320" y="184" font-size="15" class="tb" text-anchor="middle">make a flashcard</text>
+<line x1="536" y1="206" x2="536" y2="236" class="s-ink" stroke-width="2" marker-end="url(#ah11)"/>
+<text x="552" y="226" font-size="13" class="tm">no</text>
+<rect x="408" y="240" width="216" height="76" rx="10" class="f-badsoft s-bad" stroke-width="1.5"/>
+<text x="516" y="272" font-size="15" class="tb" text-anchor="middle">OpenStax wins. Note</text>
+<text x="516" y="292" font-size="15" class="tb" text-anchor="middle">the error, ask again</text>
+<path d="M408 278 H104 V100" fill="none" class="s-ink" stroke-width="2" marker-end="url(#ah11)"/>
+<text x="250" y="270" font-size="13" class="tm" text-anchor="middle">follow-up question</text>
+</svg><figcaption><b>Figure 11.4</b> The check loop. Every AI answer you plan to learn from goes through step 3. A mismatch is not a failure; spotting it is real studying, because you just compared two explanations closely.</figcaption></figure>
+
+<aside class="box try"><h4>Try it now</h4><p>Open any chatbot and ask: <em>"In 3 sentences, what are the four basic tissue types and one function of each? Then give me one source for this."</em> Now open OpenStax section 4.1 and check every claim. Then search for the source it gave you. Did the source exist, exactly as named? Two minutes, and you will have run the whole check loop once.</p></aside>
+
+<h2 id="red-lines">The lines you do not cross</h2>
+<p>Some uses of AI are not weak studying. They are integrity violations under the BIO 243 syllabus. Be clear on these:</p>
+<ul>
+<li><strong>Quizzes and exams.</strong> No AI, no outside sources, no second device. This includes Blackboard quizzes that are open for several days. "Open for a while" does not mean "open book."</li>
+<li><strong>Pasting quiz or exam questions into AI,</strong> including screenshots, retyped versions, or "just to check my answer afterward." Quiz content stays in Blackboard.</li>
+<li><strong>Guided Practice and the Reading Guide.</strong> These are graded. The Reading Guide is also one of your best study tools <em>because</em> you find the answers in the textbook yourself.</li>
+<li><strong>CircleIn posts.</strong> CircleIn is graded and built on students helping students. A post written by AI is not your contribution, even if you edit it a bit.</li>
+</ul>
+<p>Some uses are allowed but weak. "Summarize chapter 13 so I do not have to read it" breaks no rule, but leaves you with familiar words and little you can recall. Use summaries, if at all, <em>after</em> you read, to compare with your own notes.</p>
+
+<h2 id="privacy">Keep it private</h2>
+<p>When you type into a chatbot, your words go to a company's servers, where, depending on the tool and your settings, they may be stored, reviewed, or used to improve future models. No need to be fearful. Just be careful what you hand over.</p>
+<p>Rule 4 says never paste in personal information, yours or anyone else's. That includes your student ID, your grades, health details, and classmates' names. It also includes things that seem harmless in the moment, like a screenshot of your Blackboard grade center or a group chat with names in it.</p>
+<p>You can almost always get the same help without the personal details. Instead of "I got a 61 on my first exam and I have ADHD, make me a plan," try "I want to raise my exam scores in Anatomy and Physiology I. I work 20 hours a week and commute. Build me a weekly study plan with short sessions." You still get a useful plan. Your grade and your health stay with you. If you need support with a disability or a hard semester, those are conversations for Disability Services, Counseling Services, or your instructor, as Chapter 13 explains.</p>
+
+<div class="qc" data-c="2"><p class="q">Which prompt follows rule 4, "keep it private"?</p><ol class="opts"><li>"My student ID is ... can you help me read my unofficial transcript?"</li><li>"My lab partner Jasmine keeps missing class. Write her a message."</li><li>"Quiz me on the bones of the axial skeleton, one question at a time."</li><li>"Here is a screenshot of my Blackboard grades. What do I need on the final?"</li></ol><p class="why">Only the quiz prompt contains no personal information. Student IDs, grades and classmates' names stay out of AI tools.</p></div>
+
+<h2 id="every-class">Every class is different: asking and disclosing</h2>
+<p>USC Upstate leaves many decisions about AI to each instructor, so a use that is fine in one course can be a violation in the next. BIO 243's rules are the ones in this chapter. For every other course, the syllabus for <em>that</em> course is your guide.</p>
+<p>When the syllabus is unclear, ask before you use AI, not after. A short message is enough: "For the case study assignment, may I use an AI tool to quiz myself on the material before I write? I would write the assignment itself on my own." Instructors respect that question. It shows you take integrity seriously.</p>
+<p>When an assignment does allow AI, say how you used it. A one or two sentence note works well: "I used a chatbot to generate practice questions on the cardiac cycle while studying. I wrote this report myself and checked all facts against the course textbook." That honesty protects you, and it is a habit you will need in nursing and health care, where people need to trust where your information came from.</p>
+
+<aside class="box ai"><h4>Smart AI move</h4><p>Keep a small "AI log" in your notes for the week: the date's topic, what you asked, and what you found when you checked OpenStax. Two lines per session. Over a few weeks you will see which topics the AI handles well and which it fumbles, and you will have a record ready if a course ever asks how you used AI.</p></aside>
+
+<h2 id="putting-it-together">Putting it together in a real study week</h2>
+<p>Here is balanced AI use in a normal week, around weeks 10 and 11 when chapters 12 and 13 pile up.</p>
+<ol>
+<li><strong>Read first.</strong> Read the OpenStax section before class and work on the Reading Guide on your own.</li>
+<li><strong>Write from memory.</strong> After lecture, write your own explanation of the action potential or the spinal cord tracts without looking.</li>
+<li><strong>Use AI to check.</strong> Paste in your own explanation with the "do not rewrite, point out what is wrong" prompt from Example 3.</li>
+<li><strong>Verify.</strong> Look up every correction in OpenStax before you accept it.</li>
+<li><strong>Use AI to quiz.</strong> Later in the week, ask for a mixed practice set and answer it without notes.</li>
+<li><strong>Make it yours.</strong> Every miss becomes a flashcard you write, in CircleIn or on paper.</li>
+</ol>
+<p>Notice where AI sits: in the middle of your studying, never in place of reading and never in place of you. Used like this, AI is not a shortcut around the hard part of A&amp;P. It is more practice at the hard part, with a study partner you double-check every time.</p>
+
+<div class="qc" data-c="0"><p class="q">You are in a different course whose syllabus does not mention AI at all. You want to use a chatbot to brainstorm topics for a paper. What is the best move?</p><ol class="opts"><li>Ask the instructor first, and if it is allowed, say how you used it</li><li>Use it, because the syllabus did not forbid it</li><li>Use it, but delete the chat so there is no record</li><li>Follow the BIO 243 rules, since they apply to every course</li></ol><p class="why">Rule 5: every class is different. When in doubt, ask before you use it, and disclose your use when AI is allowed.</p></div>
+
+<div class="action"><h4>Your five-minute action</h4><ol>
+<li>Copy the five BIO 243 AI rules onto the first page of your notes or your phone's lock screen.</li>
+<li>Pick this week's hardest topic and write a five-part prompt for it (who you are, topic and chapter, job, format, safety line).</li>
+<li>Run it, then check at least three claims in the matching OpenStax section.</li>
+<li>Turn every error or miss into a flashcard you write yourself.</li>
+</ol></div>
+
+<section class="gloss"><h2 id="key-terms">Key terms</h2><dl>
+<dt>Generative AI</dt><dd>Software that produces new text, images or other content in response to a prompt.</dd>
+<dt>Large language model</dt><dd>The kind of AI behind chatbots; it learned word patterns from huge amounts of text and writes by predicting likely next words.</dd>
+<dt>Prompt</dt><dd>The message or instructions you type to an AI tool.</dd>
+<dt>Hallucination</dt><dd>A confident AI answer that is false, such as an invented fact or a source that does not exist.</dd>
+<dt>Tutor, not ghostwriter</dt><dd>BIO 243 rule 1: use AI to quiz you, explain and check your thinking, never to produce work you turn in.</dd>
+<dt>Graded work</dt><dd>Quizzes, exams, Guided Practice, the Reading Guide and CircleIn posts; no AI unless the assignment says so.</dd>
+<dt>Verification</dt><dd>Checking an AI claim against OpenStax and your notes before you study from it.</dd>
+<dt>Check loop</dt><dd>Ask, read, find the OpenStax section, compare, then either test yourself or fix the error and ask again.</dd>
+<dt>Fabricated citation</dt><dd>A reference an AI invents that looks real but points to a source that does not exist.</dd>
+<dt>Disclosure</dt><dd>A short, honest note saying how you used AI on an assignment where AI use is allowed.</dd>
+<dt>Personal information</dt><dd>Details such as your student ID, grades, health information or classmates' names, which never go into AI tools.</dd>
+<dt>Self-explanation prompt</dt><dd>A prompt where you write your own explanation first and ask AI to point out errors without rewriting it.</dd>
+</dl></section>
+
+<section class="refs"><h2 id="sources">Where this comes from</h2><ol>
+<li>Bastani, H., Bastani, O., Sungu, A., Ge, H., Kabakcı, Ö., &amp; Mariman, R. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. <em>Proceedings of the National Academy of Sciences, 122</em>(26).</li>
+<li>Betts, J. G., Young, K. A., Wise, J. A., Johnson, E., Poe, B., Kruse, D. H., Korol, O., Johnson, J. E., Womble, M., &amp; DeSaix, P. (2022). <em>Anatomy and physiology</em> (2nd ed.). OpenStax.</li>
+<li>Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y. J., Madotto, A., &amp; Fung, P. (2023). Survey of hallucination in natural language generation. <em>ACM Computing Surveys, 55</em>(12), Article 248.</li>
+<li>Roediger, H. L., &amp; Karpicke, J. D. (2006). Test-enhanced learning: Taking memory tests improves long-term retention. <em>Psychological Science, 17</em>(3), 249 to 255.</li>
+<li>Walters, W. H., &amp; Wilder, E. I. (2023). Fabrication and errors in the bibliographic citations generated by ChatGPT. <em>Scientific Reports, 13</em>, 14045.</li>
+</ol></section>
+
+<nav class="pager" aria-label="Previous and next"><a href="ch10.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span>Chapter 10: After the Exam: Read Your Results</span></a><a class="nx" href="ch12.html"><span>Chapter 12: Motivation, Stress, Sleep and Setbacks</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a></nav></article>
+</div></div>
+</main>
+<footer class="foot"><div class="wrap">
+<div><a class="logo" href="../index.html"><span class="crest" aria-hidden="true">243</span><span><b>Success Lab</b><small>BIO 243 · USC Upstate</small></span></a>
+<p class="who"><b>BIO 243 Success Lab</b><br>An optional companion to BIOL U243 Human Anatomy and Physiology I at USC Upstate<br>By Dr. Akash Garg</p></div>
+<div><h2>Plan</h2><ul><li><a href="../weeks/index.html">The 15 weeks</a></li><li><a href="../tools/time-budget.html">Time Budget</a></li><li><a href="../tools/exam-planner.html">Exam Planner</a></li><li><a href="../tools/spaced-review.html">Spaced Review Tracker</a></li></ul></div>
+<div><h2>Learn</h2><ul><li><a href="../book/index.html">The Success Book</a></li><li><a href="../flashcards.html">Flashcards</a></li><li><a href="../tools/self-check.html">Study Habits Self-Check</a></li><li><a href="../tools/exam-wrapper.html">Exam Wrapper</a></li><li><a href="../printables/index.html">Printables</a></li></ul></div>
+<div><h2>Play</h2><ul><li><a href="../games/chase.html">The Success Chase</a></li><li><a href="../games/smart-or-shady.html">AI: Smart or Shady?</a></li><li><a href="../games/prompt-lab.html">AI Prompt Lab</a></li></ul></div>
+<p class="fine">This site is optional and does not replace the BIO 243 syllabus or Blackboard. When they differ, your syllabus and your instructor win. Nothing you type here leaves your device. Textbook references are to OpenStax <i>Anatomy and Physiology</i> (CC BY 4.0). Site content CC BY-NC-SA 4.0.</p>
+</div></footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>
